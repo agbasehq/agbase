@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@layer components {
+
+    .docs-layout {
+        @apply mx-auto grid max-w-290 grid-cols-[220px_1fr_190px] gap-0 px-5 min-h-[calc(100vh-60px)];
+    }
+
+    .sidebar {
+        @apply sticky top-15 h-[calc(100vh-60px)] overflow-y-auto border-r border-[#FFFFFF0F] py-6;
+    }
+
+    .sidebar-section {
+        @apply mb-5.5 px-3;
+    }
+
+    .sidebar-label {
+        @apply mb-1.75 px-2 text-[10px] font-bold uppercase tracking-[0.14em] text-(--muted);
+    }
+
+    .sidebar-nav {
+        @apply flex list-none flex-col gap-px p-0 m-0;
+    }
+
+    .sidebar-nav li a {
+        @apply block rounded-[7px] px-2.5 py-1.5 text-[13px] text-(--muted2) no-underline transition-all duration-150;
+    }
+
+    .sidebar-nav li a:hover {
+        @apply bg-white/4 text-(--text);
+    }
+
+    .sidebar-nav li a.active {
+        @apply bg-[#6c63ff]/8 text-(--accent);
+    }
+}
