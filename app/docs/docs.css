@@ -1,10 +1,6 @@
 @import "tailwindcss";
 @layer components {
 
-    .docs-layout {
-        @apply mx-auto grid max-w-290 grid-cols-[220px_1fr_190px] gap-0 px-5 min-h-[calc(100vh-60px)];
-    }
-
     .sidebar {
         @apply sticky top-15 h-[calc(100vh-60px)] overflow-y-auto border-r border-[#FFFFFF0F] py-6;
     }
@@ -32,4 +28,98 @@
     .sidebar-nav li a.active {
         @apply bg-[#6c63ff]/8 text-(--accent);
     }
+
+    .docs-main {
+        @apply px-2 md:px-10 sm:py-4 md:py-6 py-2 min-w-0;
+    }
+
+    .doc-divider {
+        @apply my-10 border-none border-t border-[#FFFFFF0F];
+    }
+
+    .page-title {
+        @apply mb-2.5 text-[clamp(28px,3.5vw,36px)] font-bold leading-[1.15] tracking-[-1px] text-(--text);
+    }
+
+    .page-desc {
+        @apply mb-8 text-[15px] font-light leading-[1.7] text-(--muted2);
+    }
+
+    .doc-h2 {
+        @apply mt-0 border-t border-[#FFFFFF0F] pb-0 pt-2.5 mb-3 text-[21px] font-bold tracking-[-0.3px] text-(--text);
+    }
+
+    .doc-h3 {
+        @apply mt-0 mb-2.25 text-[15px] font-semibold text-(--muted2);
+    }
+
+    .callout {
+        @apply my-4 flex items-start gap-2.75 rounded-[10px] px-4 py-3.25;
+    }
+
+    .callout-info { 
+        @apply border border-[#4f8bf9]/18 bg-[#4f8bf9]/8; 
+    }
+    
+    .callout-warn { 
+        @apply border border-[#fab446]/18 bg-[#fab446]/[0.07]; 
+    }
+    
+    .callout-tip { 
+        @apply border border-[#3ecfa0]/18 bg-[#3ecfa0]/[0.07]; 
+    }
+
+    .callout-icon { 
+        @apply mt-px shrink-0 text-[15px]; 
+    }
+    
+    .callout p { 
+        @apply m-0 text-[13.5px] leading-[1.65] text-(--muted2); 
+    }
+    
+    .callout strong { 
+        @apply font-bold text-(--text); 
+    }
+
+    .doc-p {
+        @apply mb-3.5 text-[14px] leading-[1.8] text-(--muted2);
+    }
+
+    .step-row {
+        @apply mb-[26px] flex items-start gap-3.5;
+    }
+
+    .step-badge {
+        @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-(--accent) text-[11.5px] font-bold text-white;
+    }
+
+    .step-content {
+        @apply flex-1;
+    }
+
+    .step-content h3 {
+        @apply mb-1.25 mt-0.5 text-[14.5px] font-semibold text-(--text);
+    }
+
+    .step-content p {
+        @apply mb-2.5 text-[13.5px] leading-[1.7] text-(--muted2);
+    }
+
+    .check-list {
+        @apply mb-3.5 flex list-none flex-col gap-1.75 p-0 m-0;
+    }
+
+    .check-list li {
+        @apply flex items-start gap-2 text-[13.5px] leading-[1.6] text-(--muted2);
+    }
+
+    .check-list li .chk {
+        @apply mt-px shrink-0 text-green-500;
+    }
+
+    .tk-prop {
+        @apply text-[#3ecfa0]
+    }
+
+    
 }

@@ -3,7 +3,7 @@ import "@/app/docs/docs.css"
 
 const SideBar = () => {
     return (
-        <aside className="sidebar">
+        <aside className="sidebar hidden lg:block w-120">
             <div className="sidebar-section">
                 <div className="sidebar-label">Getting Started</div>
                 <ul className="sidebar-nav">
