@@ -431,55 +431,56 @@ export default function Docs() {
                         </div>
                     </div>
 
-                    <h3 className="doc-h3">Feature fields</h3>
-                    <table className="prop-table">
-                        <thead>
-                            <tr>
-                                <th>Field</th>
-                                <th>Type</th>
-                                <th>Required</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>name</td>
-                                <td>string</td>
-                                <td className="req">Required</td>
-                                <td>Short name for the feature (e.g. "Export Data").</td>
-                            </tr>
-                            <tr>
-                                <td>description</td>
-                                <td>string</td>
-                                <td className="req">Required</td>
-                                <td>
-                                    Detailed explanation. The more detail, the better the AI
-                                    answers. Describe exact steps, locations, and behavior.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>route</td>
-                                <td>string</td>
-                                <td className="req">Optional</td>
-                                <td>
-                                    App route to navigate to (e.g.
-                                    <code className="inline">/settings/export</code>). Returned in the
-                                    response so your app can redirect the user.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>elementId</td>
-                                <td>string</td>
-                                <td className="text-[11px] text-(--muted2)">Optional</td>
-                                <td>
-                                    A DOM element ID (e.g.
-                                    <code className="inline">#export-button</code>). Returned so your
-                                    app can highlight or scroll to the relevant UI element.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                    <h3 className="doc-h3 mt-4">Feature fields</h3>
+                    <div className="overflow-x-auto">
+                        <table className="prop-table">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Type</th>
+                                    <th>Required</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>string</td>
+                                    <td className="req">Required</td>
+                                    <td>Short name for the feature (e.g. "Export Data").</td>
+                                </tr>
+                                <tr>
+                                    <td>description</td>
+                                    <td>string</td>
+                                    <td className="req">Required</td>
+                                    <td>
+                                        Detailed explanation. The more detail, the better the AI
+                                        answers. Describe exact steps, locations, and behavior.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>route</td>
+                                    <td>string</td>
+                                    <td className="text-[11px] text-(--muted2)">Optional</td>
+                                    <td>
+                                        App route to navigate to (e.g.
+                                        <code className="inline">/settings/export</code>). Returned in the
+                                        response so your app can redirect the user.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>elementId</td>
+                                    <td>string</td>
+                                    <td className="text-[11px] text-(--muted2)">Optional</td>
+                                    <td>
+                                        A DOM element ID (e.g.
+                                        <code className="inline">#export-button</code>). Returned so your
+                                        app can highlight or scroll to the relevant UI element.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div className="callout callout-info">
                         <span className="callout-icon">💡</span>
                         <p>

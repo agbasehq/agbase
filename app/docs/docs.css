@@ -121,5 +121,31 @@
         @apply text-[#3ecfa0]
     }
 
-    
+    .prop-table {
+        @apply my-4 border-separate border-spacing-0 overflow-x-auto rounded-[10px] border border-[#FFFFFF0F] text-[13px];
+    }
+
+    .prop-table th {
+        @apply bg-(--bg3) border-b border-[#FFFFFF0F] px-3.5 py-2.5 text-left text-[10.5px] font-semibold uppercase tracking-widest text-(--muted);
+    }
+
+    .prop-table td {
+        @apply border-b border-[#FFFFFF0F] px-3.5 py-2.5 leading-[1.6] text-(--muted2);
+    }
+
+    .prop-table tr:last-child td {
+        @apply border-b-0;
+    }
+
+    .prop-table td:first-child {
+        @apply font-["JetBrains_Mono",monospace] text-[12px] text-[#a29dff];
+    }
+
+    .prop-table td:nth-child(2) {
+        @apply font-["JetBrains_Mono",monospace] text-[11.5px] text-[#c084fc];
+    }
+
+    .prop-table .req {
+        @apply text-[10.5px] font-bold text-[#f87171];
+    }
 }
