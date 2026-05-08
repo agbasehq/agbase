@@ -33,6 +33,10 @@ body {
   display: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @layer components {
 
     .nav-wrap {

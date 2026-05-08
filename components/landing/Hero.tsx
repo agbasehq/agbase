@@ -31,7 +31,7 @@ export default function Hero() {
                         <pre data-prefix="4"><code className="tk-kw">{"\treturn ("}</code></pre>
                         <pre data-prefix="5"><code className="tk-kw">{`\t\t<div>`}</code></pre>
                         <pre data-prefix="6"><code className="tk-cmt">{"\t\t\t{/* AI assistant — one JSX tag */}"}</code></pre>
-                        <pre data-prefix="7"><code><span className="tk-kw">{"\t\t\t<ChatWidget"}</span><span className="tk-prop">{"appKey"}</span><span className="tk-kw">{"="}</span><span className="tk-str">{`"your-app-key"`}</span><span className="tk-prop">{" name"}</span><span className="tk-kw">=</span><span className="tk-str">{`"your-assistant-name"`}</span><span className="tk-kw">{" />"}</span></code></pre>
+                        <pre data-prefix="7"><code><span className="tk-kw">{"\t\t\t<ChatWidget"}</span><span className="tk-prop">{" appKey"}</span><span className="tk-kw">{"="}</span><span className="tk-str">{`"your-app-key"`}</span><span className="tk-prop">{" name"}</span><span className="tk-kw">=</span><span className="tk-str">{`"your-assistant-name"`}</span><span className="tk-kw">{" />"}</span></code></pre>
                         <pre data-prefix="8"><code className="tk-kw">{"\t\t</div>"}</code></pre>
                         <pre data-prefix="9"><code className="tk-kw">{"\t)"}</code></pre>
                         <pre data-prefix="10"><code className="tk-kw">{"}"}</code></pre>
