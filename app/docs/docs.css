@@ -86,7 +86,7 @@
     }
 
     .step-row {
-        @apply mb-[26px] flex items-start gap-3.5;
+        @apply mb-6.5 flex items-start gap-3.5;
     }
 
     .step-badge {

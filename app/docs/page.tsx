@@ -255,7 +255,7 @@ export default function Docs() {
                                 <h3>Install the package</h3>
                             </div>
                             <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                                <span className="file-name">Bash</span>
+                                <span className="file-name">BASH</span>
                                 <div className="code-body text-start">
                                     <pre><span className="tk-bash"> npm install @doclessai/sdk</span></pre>
                                 </div>
@@ -309,7 +309,7 @@ export default function Docs() {
                                 <h3>Add the widget to your React app</h3>
                             </div>
                             <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                                <span className="file-name">App.tsx</span>
+                                <span className="file-name">TSX</span>
                                 <div className="code-body max-w-64 text-start">
                                     <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></code></pre>
                                     <pre> <code></code></pre>
@@ -491,7 +491,204 @@ export default function Docs() {
                         </p>
                     </div>
                 </div>
-            </main>
-        </div>
+
+                <hr className="doc-divider" />
+
+                <div id="chat-widget">
+                    <h2 className="doc-h2">ChatWidget (React)</h2>
+                    <p className="doc-p">
+                        The simplest way to add the AI assistant. Works in React and Next.js
+                        projects.
+                    </p>
+
+                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">TSX</span>
+                        <div className="code-body text-start">
+                            <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></code></pre>
+                            <br />
+                            <pre> <code><span className="tk-kw">{"<ChatWidget"}</span><span className="tk-prop">{"\n\t\tappKey"}</span><span className="tk-kw">{"="}</span><span className="tk-str">{`"your-app-key"`}</span><span className="tk-prop">{"\n\t\tname"}</span><span className="tk-kw">=</span><span className="tk-str">{`"your-assistant-name"`}</span><span className="tk-kw">{"\n\t/>"}</span></code></pre>
+                        </div>
+                    </div>
+
+                    <h3 className="doc-h3 mt-4">Props</h3>
+                    <div className="overflow-x-auto">
+                        <table className="prop-table">
+                            <thead>
+                                <tr>
+                                    <th>Prop</th>
+                                    <th>Type</th>
+                                    <th>Required</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>appKey</td>
+                                    <td>string</td>
+                                    <td className="req">Required</td>
+                                    <td>Your App Key from the DoclessAI dashboard.</td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>string</td>
+                                    <td className="req">Required</td>
+                                    <td>Display name of your assistant shown in the chat panel.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 className="doc-h3">What&apos;s included</h3>
+                    <ul className="check-list">
+                        <li>
+                            <span className="chk">✓</span> Floating chat button that opens a full
+                            chat panel
+                        </li>
+                        <li>
+                            <span className="chk">✓</span> Markdown rendering in responses (bold,
+                            code, lists)
+                        </li>
+                        <li>
+                            <span className="chk">✓</span> Image upload — users send images, AI
+                            analyzes them
+                        </li>
+                        <li><span className="chk">✓</span> Toast notifications for errors</li>
+                        <li><span className="chk">✓</span> Fully responsive on mobile</li>
+                        <li>
+                            <span className="chk">✓</span> Feature navigation (uses
+                            <code className="inline">route</code> from response)
+                        </li>
+                    </ul>
+                </div>
+
+                <hr className="doc-divider" />
+
+                <div id="html-script">
+                    <h2 className="doc-h2">HTML Script Tag</h2>
+                    <p className="doc-p">
+                        Not using React? Add the assistant to any HTML page with a single
+                        script tag — no build step needed.
+                    </p>
+
+                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">HTML</span>
+                        <pre> <span className="tk-cmt">&lt;!-- Before closing &lt;/body&gt; --&gt;</span></pre>
+                        <pre> <span className="tk-kw">{"<script"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tsrc"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"https://cdn.jsdelivr.net/npm/@doclessai/sdk@0.3.5/dist/loader.standalone.js\""}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tdata-app-key"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"your-app-key-here\""}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tdata-name"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"YOUR_ASSISTANT_NAME\""}</span></pre>
+                        <pre> <span className="tk-kw">{"></script>"}</span></pre>
+                    </div>
+
+                    <div className="callout callout-info">
+                        <span className="callout-icon">ℹ️</span>
+                        <p>
+                            The script auto-initializes when the page loads. Works with any
+                            HTML page.
+                        </p>
+                    </div>
+                </div>
+
+                <hr className="doc-divider" />
+
+                <div id="headless">
+                    <h2 className="doc-h2">DoclessClient (Headless)</h2>
+                    <p className="doc-p">
+                        Use the client directly if you want to build your own chat UI. You
+                        handle the interface — we handle the AI.
+                    </p>
+
+                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">TYPESCRIPT</span>
+                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">DoclessClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <br />
+                        <pre> <span className="tk-kw">const</span> <span className="doc-p">ai = </span><span className="tk-kw">new</span> <span className="tk-fn">DoclessClient</span><span className="tk-kw">({"{"}</span></pre>
+                        <pre> <span className="tk-prop">{"\tappKey"}</span>: <span className="tk-str">{"'your-app-key-here'"}</span></pre>
+                        <pre> <span className="tk-kw">{"})"}</span></pre>
+                        <br />
+                        <pre> <span className="tk-cmt">{"// Text query"}</span></pre>
+                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res = </span><span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(userQuery)</span></pre>
+                        <br />
+                        <pre> <span className="tk-cmt">{"// Text + image"}</span></pre>
+                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res = </span><span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(userQuery, imageFile)</span></pre>
+                        <pre className="mt-4"> <span className="tk-cmt">{"// Use the response"}</span></pre>
+                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.res)</span>       <span className="tk-cmt">{"// AI answer text"}</span></pre>
+                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.route)</span>     <span className="tk-cmt">{"// route to navigate to"}</span></pre>
+                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.elementId)</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
+                    </div>
+                </div>
+
+                <hr className="doc-divider" />
+
+                <div id="nextjs">
+                    <h2 className="doc-h2">Next.js Setup</h2>
+                    <p className="doc-p">
+                        ChatWidget is a client component. Use
+                        <code className="inline">{"\"use client\""}</code> and pass your key via
+                        environment variable.
+                    </p>
+
+                    <h3 className="doc-h3">.env.local</h3>
+                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">BASH</span>
+                        <pre> <span className="tk-prop">NEXT_PUBLIC_DOCLESSAI_KEY</span>=<span className="tk-str">your-app-key-here</span></pre>
+                    </div>
+
+                    <h3 className="doc-h3 mt-4">app/layout.tsx (App Router)</h3>
+                    <div className="mockup-code w-full mt-4" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">TSX</span>
+                        <pre> <span className="tk-str">{"'use client'"}</span></pre>
+                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">ChatWidget</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <br />
+                        <pre> <span className="tk-kw">export default function</span> <span className="tk-fn">RootLayout</span><span className="doc-p">({"{"}</span> <span className="tk-prop">children</span> <span className="doc-p">{"}"}: {"{"}</span> <span className="tk-prop">children</span>: <span className="tk-fn">React.ReactNode</span> <span className="doc-p">{"}"}) {"{"}</span></pre>
+                        <pre> <span className="tk-kw">{"\treturn ("}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t<html>"}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t\t<body>"}</span></pre>
+                        <pre> <span className="doc-p">{"\t\t\t\t{children}"}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t\t\t<"}</span><span className="tk-kw">ChatWidget</span></pre>
+                        <pre> <span className="tk-prop">{"\t\t\t\t\tappKey"}</span><span className="doc-p">=</span><span className="tk-kw">{"{process.env.NEXT_PUBLIC_DOCLESSAI_KEY}"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\t\t\t\tname"}</span><span className="doc-p">=</span><span className="tk-str">{"\"Aria\""}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t\t\t/>"}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t\t</body>"}</span></pre>
+                        <pre> <span className="tk-kw">{"\t\t</html>"}</span></pre>
+                        <pre> <span className="tk-kw">{"\t)"}</span></pre>
+                        <pre> <span className="doc-p">{"}"}</span></pre>
+
+                    </div>
+
+                    <hr className="doc-divider" />
+
+                    <div id="response-format">
+                        <h2 className="doc-h2">Response Format</h2>
+                        <p className="doc-p">
+                            Both ChatWidget and
+                            <code className="inline">DoclessClient.ask()</code> return the same
+                            response shape:
+                        </p>
+                        <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                            <span className="file-name">TYPESCRIPT</span>
+                            <pre> <span className="doc-p">{"{"}</span></pre>
+                            <pre> <span className="tk-prop">{"\t\tres"}</span>: <span className="tk-kw">string</span>           <span className="tk-cmt">{"// AI's text answer (markdown supported)"}</span></pre>
+                            <pre> <span className="tk-prop">{"\t\troute"}</span>: <span className="text-[#c084fc]">string | null</span>   <span className="tk-cmt">{"// App route to navigate to"}</span></pre>
+                            <pre> <span className="tk-prop">{"\t\telementId"}</span>: <span className="text-[#c084fc]">string | null</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
+                            <pre> <span className="doc-p">{"}"}</span></pre>
+                        </div>
+                    </div>
+
+                    <hr className="doc-divider" />
+
+                    <div id="typescript" className="mb-10">
+                        <h2 className="doc-h2">TypeScript Types</h2>
+                        <div className="mockup-code text-start" style={{ background: '#111520', border: '1px solid #111520' }}>
+                            <span className="file-name">TYPESCRIPT</span>
+                            <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                            <br />
+                            <pre> <span className="tk-kw">const</span> <span className="doc-p">res:</span><span className="text-[#c084fc]"> AssistantResponse</span> <span className="doc-p">=</span> <span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(</span><span className="tk-str">{"'How do I export data?'"}</span><span className="doc-p">)</span></pre>
+                        </div>
+                    </div>
+
+                </div>
+            </main >
+        </div >
     )
 }
