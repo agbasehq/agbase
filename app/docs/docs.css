@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@reference "../globals.css";
 @layer components {
 
     .sidebar {
@@ -34,7 +34,7 @@
     }
 
     .doc-divider {
-        @apply my-10 border-none border-t border-[#FFFFFF0F];
+        @apply my-10 border-0 border-t border-[#FFFFFF0F];
     }
 
     .page-title {

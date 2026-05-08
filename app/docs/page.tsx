@@ -495,38 +495,37 @@ export default function Docs() {
                         <pre> <span className="doc-p">{"}"}</span></pre>
 
                     </div>
+                </div>
+                
+                <hr className="doc-divider" />
 
-                    <hr className="doc-divider" />
-
-                    <div id="response-format">
-                        <h2 className="doc-h2">Response Format</h2>
-                        <p className="doc-p">
-                            Both ChatWidget and
-                            <code className="inline">DoclessClient.ask()</code> return the same
-                            response shape:
-                        </p>
-                        <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                            <span className="file-name">TYPESCRIPT</span>
-                            <pre> <span className="doc-p">{"{"}</span></pre>
-                            <pre> <span className="tk-prop">{"\t\tres"}</span>: <span className="tk-kw">string</span>           <span className="tk-cmt">{"// AI's text answer (markdown supported)"}</span></pre>
-                            <pre> <span className="tk-prop">{"\t\troute"}</span>: <span className="text-[#c084fc]">string | null</span>   <span className="tk-cmt">{"// App route to navigate to"}</span></pre>
-                            <pre> <span className="tk-prop">{"\t\telementId"}</span>: <span className="text-[#c084fc]">string | null</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
-                            <pre> <span className="doc-p">{"}"}</span></pre>
-                        </div>
+                <div id="response-format">
+                    <h2 className="doc-h2">Response Format</h2>
+                    <p className="doc-p">
+                        Both ChatWidget and
+                        <code className="inline">DoclessClient.ask()</code> return the same
+                        response shape:
+                    </p>
+                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">TYPESCRIPT</span>
+                        <pre> <span className="doc-p">{"{"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tres"}</span>: <span className="tk-kw">string</span>           <span className="tk-cmt">{"// AI's text answer (markdown supported)"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\troute"}</span>: <span className="text-[#c084fc]">string | null</span>   <span className="tk-cmt">{"// App route to navigate to"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\telementId"}</span>: <span className="text-[#c084fc]">string | null</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
+                        <pre> <span className="doc-p">{"}"}</span></pre>
                     </div>
+                </div>
 
-                    <hr className="doc-divider" />
+                <hr className="doc-divider" />
 
-                    <div id="typescript" className="mb-10">
-                        <h2 className="doc-h2">TypeScript Types</h2>
-                        <div className="mockup-code text-start" style={{ background: '#111520', border: '1px solid #111520' }}>
-                            <span className="file-name">TYPESCRIPT</span>
-                            <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
-                            <br />
-                            <pre> <span className="tk-kw">const</span> <span className="doc-p">res:</span><span className="text-[#c084fc]"> AssistantResponse</span> <span className="doc-p">=</span> <span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(</span><span className="tk-str">{"'How do I export data?'"}</span><span className="doc-p">)</span></pre>
-                        </div>
+                <div id="typescript" className="mb-10">
+                    <h2 className="doc-h2">TypeScript Types</h2>
+                    <div className="mockup-code text-start" style={{ background: '#111520', border: '1px solid #111520' }}>
+                        <span className="file-name">TYPESCRIPT</span>
+                        <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <br />
+                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res:</span><span className="text-[#c084fc]"> AssistantResponse</span> <span className="doc-p">=</span> <span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(</span><span className="tk-str">{"'How do I export data?'"}</span><span className="doc-p">)</span></pre>
                     </div>
-
                 </div>
             </main >
         </div >
