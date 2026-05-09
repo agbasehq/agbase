@@ -1,5 +1,5 @@
 import { generateEmbeddings } from "@/helpers/server/generateEmbeddings";
-import prompt from "@/helpers/server/promt";
+import prompt from "@/helpers/server/prompt";
 import connectDB from "@/lib/db";
 import { searchSimilarFeatures } from "@/lib/qdrantSearch";
 import App from "@/models/app.model";
