@@ -1,40 +1,5 @@
+import { Footertabs } from "@/constants/data"
 import Link from "next/link"
-
-type Tab = {
-    title: string;
-    href: string;
-}
-
-type FooterTypes = {
-    title: string;
-    tabs: Tab[];
-}
-
-const Footertabs: FooterTypes[] = [
-    {
-        title: "Product",
-        tabs: [
-            { title: "Features", href: "#features" },
-            { title: "Documentation", href: "/docs" },
-            { title: "Dashboard", href: "/user" }
-        ]
-    },
-    {
-        title: "Developers",
-        tabs: [
-            { title: "Github", href: "https://github.com/Dattatray8/doclessai-sdk" },
-            { title: "npm", href: "https://www.npmjs.com/package/@doclessai/sdk" },
-            { title: "Quickstart", href: "/docs#quickstart" }
-        ]
-    },
-    {
-        title: "Legal",
-        tabs: [
-            { title: "Privacy Policy", href: "/privacy" },
-            { title: "Terms of Service", href: "/privacy#terms" }
-        ]
-    }
-]
 
 const Footer = () => {
     return (

@@ -1,40 +1,6 @@
-import React from 'react'
-
-type Steps = {
-    id: string;
-    icon: string;
-    title: string;
-    desc: string;
-}
+import { steps } from "@/constants/data"
 
 const Working = () => {
-    const steps: Steps[] = [
-        {
-            id: "01",
-            icon: "🗂",
-            title: "Create your app",
-            desc: "Register in the dashboard, give your app a name, describe its purpose, and get your App Key."
-        },
-        {
-            id: "02",
-            icon: "✏️",
-            title: "Define features",
-            desc: "Add your app's features and descriptions as JSON. The AI uses this as its knowledge base."
-        },
-        {
-            id: "03",
-            icon: "📦",
-            title: "Install the SDK",
-            desc: "npm install @doclessai/sdk. Add ChatWidget or use DoclessClient for a custom UI."
-        },
-        {
-            id: "04",
-            icon: "🤖",
-            title: "Users get answers",
-            desc: "Your users ask questions through the chat widget. The AI answers based on your defined features."
-        }
-    ]
-
     return (
         <section className='max-w-280 mx-auto px-5 py-18'>
             <span className='section-tag'>How It Works</span>
