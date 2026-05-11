@@ -89,3 +89,19 @@ export const steps: Steps[] = [
             desc: "Your users ask questions through the chat widget. The AI answers based on your defined features."
         }
 ]
+
+export const QuickLinksData: QuickLink[] = [
+    {
+        icon: "📖",
+        title: "Documentation",
+        description: "Integration guides, SDK reference, and feature definition format.",
+        href: "/docs"
+    },
+    {
+        icon: "📦",
+        title: "npm Package",
+        description: "@doclessai/sdk · View on npm, check version, read changelog.",
+        href: "https://www.npmjs.com/package/@doclessai/sdk",
+        external: true
+    }
+]

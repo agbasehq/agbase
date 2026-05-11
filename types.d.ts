@@ -12,18 +12,26 @@ declare global {
   };
 
   type Feature = {
-    icon: string
-    title: string
-    description: string
-    className: string
-  }
+    icon: string;
+    title: string;
+    description: string;
+    className: string;
+  };
+
+  type QuickLink = {
+    icon: string;
+    title: string;
+    description: string;
+    href: string;
+    external?: boolean;
+  };
 
   type Steps = {
     id: string;
     icon: string;
     title: string;
     desc: string;
-  }
+  };
 
   var mongoose: {
     conn: Connection | null;

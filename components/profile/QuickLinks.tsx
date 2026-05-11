@@ -1,34 +1,5 @@
+import { QuickLinksData } from "@/constants/data"
 import Link from "next/link"
-
-type QuickLink = {
-    icon: string
-    title: string
-    description: string
-    href: string
-    external?: boolean
-}
-
-const QuickLinksData: QuickLink[] = [
-    {
-        icon: "🖼",
-        title: "Cloudinary Pipeline",
-        description: "Upload images and get public URLs for your feature definitions.",
-        href: "/cloudinary-pipeline"
-    },
-    {
-        icon: "📖",
-        title: "Documentation",
-        description: "Integration guides, SDK reference, and feature definition format.",
-        href: "/docs"
-    },
-    {
-        icon: "📦",
-        title: "npm Package",
-        description: "@doclessai/sdk · View on npm, check version, read changelog.",
-        href: "https://www.npmjs.com/package/@doclessai/sdk",
-        external: true
-    }
-]
 
 const QuickLinks = () => {
     return (
