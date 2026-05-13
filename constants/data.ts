@@ -105,3 +105,31 @@ export const QuickLinksData: QuickLink[] = [
         external: true
     }
 ]
+
+export const sections = [
+    {
+        label: "Getting Started",
+        items: [
+            { id: "introduction", title: "Introduction" },
+            { id: "quickstart", title: "Quick Start" },
+            { id: "dashboard-setup", title: "Dashboard Setup" },
+            { id: "features-json", title: "Defining Features" },
+        ],
+    },
+    {
+        label: "Integration",
+        items: [
+            { id: "chat-widget", title: "ChatWidget (React)" },
+            { id: "html-script", title: "HTML Script Tag" },
+            { id: "headless", title: "DoclessClient (Headless)" },
+            { id: "nextjs", title: "Next.js Setup" },
+        ],
+    },
+    {
+        label: "Reference",
+        items: [
+            { id: "response-format", title: "Response Format" },
+            { id: "typescript", title: "TypeScript Types" },
+        ],
+    },
+]
