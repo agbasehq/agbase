@@ -80,7 +80,7 @@ export const steps: Steps[] = [
             id: "03",
             icon: "📦",
             title: "Install the SDK",
-            desc: "npm install @doclessai/sdk. Add ChatWidget or use DoclessClient for a custom UI."
+            desc: "npm install @agbase/sdk. Add ChatWidget or use DoclessClient for a custom UI."
         },
         {
             id: "04",
@@ -100,7 +100,7 @@ export const QuickLinksData: QuickLink[] = [
     {
         icon: "📦",
         title: "npm Package",
-        description: "@doclessai/sdk · View on npm, check version, read changelog.",
+        description: "@agbase/sdk · View on npm, check version, read changelog.",
         href: "https://www.npmjs.com/package/@doclessai/sdk",
         external: true
     }

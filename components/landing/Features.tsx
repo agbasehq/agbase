@@ -5,7 +5,7 @@ const Features = () => {
     return (
         <section className='max-w-280 mx-auto px-5 py-18' id='features'>
             <span className='section-tag'>Features</span>
-            <h2 className="section-h2">What DoclessAI gives you.</h2>
+            <h2 className="section-h2">What AGBase gives you.</h2>
             <p className="section-sub">
                 Ship an AI-powered assistant in your app without building any AI
                 infrastructure yourself.

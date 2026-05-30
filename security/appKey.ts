@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 export function generateAppKey(): string {
     const random = crypto.randomBytes(32).toString("hex");
-    return `doclessai_live_${random}`;
+    return `agbase_live_${random}`;
 }
 
 const HASH_SECRET = process.env.APP_KEY_SECRET || 'fallback-secret-for-dev-only';

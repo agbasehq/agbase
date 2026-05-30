@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="footer-inner">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <Link href={'/'}>DoclessAI</Link>
+                        <Link href={'/'}>AGBase</Link>
                         <p>Context-aware AI assistants for any application. Define features,
                             let the AI handle the rest.</p>
                     </div>
@@ -26,7 +26,7 @@ const Footer = () => {
                     ))}
                 </div>
                 <div className="footer-bottom">
-                    <span>© 2025 DoclessAI · Built by <Link href={"https://github.com/Dattatray8"} target="_blank"
+                    <span>© 2026 AGBase · Built by <Link href={"https://github.com/Dattatray8"} target="_blank"
                         rel="noopener noreferrer" className="text-(--accent)">Dattatray</Link></span>
                     <div className="footer-links-row">
                         <Link href={"https://github.com/Dattatray8/doclessai-sdk"}

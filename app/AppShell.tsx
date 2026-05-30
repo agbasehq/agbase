@@ -29,7 +29,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <nav className="nav-wrap">
                 <div className="nav-inner">
                     <div className="flex items-center ">
-                        <Link href={'/'} className={`${appNameFont.className} text-2xl`}>DoclessAI</Link>
+                        <Link href={'/'} className={`${appNameFont.className} text-2xl`}>AGBase</Link>
                     </div>
                     <ul className="nav-links md:flex hidden">
                         <li><Link href="#features" className={tabFont.className}>Features</Link></li>
@@ -101,8 +101,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div className="p-4">
                 {children}
             </div>
-            <ChatWidget appKey={process.env.NEXT_PUBLIC_DOCLESSAI_APP_KEY!}
-                name="DoclessAI" />
+            <ChatWidget appKey={process.env.NEXT_PUBLIC_AGBASE_APP_KEY!}
+                name="AGBase" />
         </div>
     );
 }

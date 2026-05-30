@@ -24,7 +24,7 @@ export default function Docs() {
             <SideBar />
             <main className="docs-main">
                 <div id="introduction">
-                    <h1 className="page-title">DoclessAI SDK</h1>
+                    <h1 className="page-title">AGBase SDK</h1>
                     <p className="page-desc">
                         Add a context-aware AI chat assistant to your application. Define
                         your app&apos;s features — users ask questions, the AI answers based on
@@ -35,15 +35,15 @@ export default function Docs() {
                         <span className="callout-icon">📦</span>
                         <p>
                             <strong>npm package: </strong>
-                            <code className="inline">npm install @doclessai/sdk</code>
+                            <code className="inline">npm install @agbase/sdk</code>
                             &nbsp;·&nbsp; Works with React, Next.js, and plain HTML.
                         </p>
                     </div>
 
-                    <h2 className="doc-h2">What problem does DoclessAI solve?</h2>
+                    <h2 className="doc-h2">What problem does AGBase solve?</h2>
                     <p className="doc-p">
                         Apps often have features users don&apos;t understand — and they don&apos;t
-                        want to search through documentation to find answers. DoclessAI
+                        want to search through documentation to find answers. AGBase
                         embeds an AI assistant directly inside your application. The
                         assistant understands your app because <em>you</em> tell it what
                         your app does — through feature definitions you write in the
@@ -97,7 +97,7 @@ export default function Docs() {
                             <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                                 <span className="file-name">BASH</span>
                                 <div className="code-body text-start">
-                                    <pre><span className="tk-bash"> npm install @doclessai/sdk</span></pre>
+                                    <pre><span className="tk-bash"> npm install @agbase/sdk</span></pre>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ export default function Docs() {
                             </div>
                             <p>
                                 Go to the
-                                <Link className="text-(--accent)" href="/user"> DoclessAI dashboard</Link>, create a new app, and copy your
+                                <Link className="text-(--accent)" href="/user"> AGBase dashboard</Link>, create a new app, and copy your
                                 <strong className="text-(--text)"> App Key</strong>. Store it in
                                 your environment variables.
                             </p>
@@ -151,7 +151,7 @@ export default function Docs() {
                             <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                                 <span className="file-name">TSX</span>
                                 <div className="code-body max-w-64 text-start">
-                                    <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></code></pre>
+                                    <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>
                                     <pre> <code></code></pre>
                                     <pre> <code><span className="tk-kw">export default function</span> <span className="tk-fn">App</span><span className="text-[#3b4460]">{"()"}</span><span className="tk-kw">{"\t{"}</span></code></pre>
                                     <pre> <code className="tk-kw">{"\t\treturn ("}</code></pre>
@@ -344,7 +344,7 @@ export default function Docs() {
                     <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">TSX</span>
                         <div className="code-body text-start">
-                            <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></code></pre>
+                            <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>
                             <br />
                             <pre> <code><span className="tk-kw">{"<ChatWidget"}</span><span className="tk-prop">{"\n\t\tappKey"}</span><span className="tk-kw">{"="}</span><span className="tk-str">{`"your-app-key"`}</span><span className="tk-prop">{"\n\t\tname"}</span><span className="tk-kw">=</span><span className="tk-str">{`"your-assistant-name"`}</span><span className="tk-kw">{"\n\t/>"}</span></code></pre>
                         </div>
@@ -366,7 +366,7 @@ export default function Docs() {
                                     <td>appKey</td>
                                     <td>string</td>
                                     <td className="req">Required</td>
-                                    <td>Your App Key from the DoclessAI dashboard.</td>
+                                    <td>Your App Key from the AGBase dashboard.</td>
                                 </tr>
                                 <tr>
                                     <td>name</td>
@@ -440,7 +440,7 @@ export default function Docs() {
 
                     <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">DoclessClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">DoclessClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
                         <br />
                         <pre> <span className="tk-kw">const</span> <span className="doc-p">ai = </span><span className="tk-kw">new</span> <span className="tk-fn">DoclessClient</span><span className="tk-kw">({"{"}</span></pre>
                         <pre> <span className="tk-prop">{"\tappKey"}</span>: <span className="tk-str">{"'your-app-key-here'"}</span></pre>
@@ -471,14 +471,14 @@ export default function Docs() {
                     <h3 className="doc-h3">.env.local</h3>
                     <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">BASH</span>
-                        <pre> <span className="tk-prop">NEXT_PUBLIC_DOCLESSAI_KEY</span>=<span className="tk-str">your-app-key-here</span></pre>
+                        <pre> <span className="tk-prop">NEXT_PUBLIC_AGBASE_KEY</span>=<span className="tk-str">your-app-key-here</span></pre>
                     </div>
 
                     <h3 className="doc-h3 mt-4">app/layout.tsx (App Router)</h3>
                     <div className="mockup-code w-full mt-4" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">TSX</span>
                         <pre> <span className="tk-str">{"'use client'"}</span></pre>
-                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">ChatWidget</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">ChatWidget</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
                         <br />
                         <pre> <span className="tk-kw">export default function</span> <span className="tk-fn">RootLayout</span><span className="doc-p">({"{"}</span> <span className="tk-prop">children</span> <span className="doc-p">{"}"}: {"{"}</span> <span className="tk-prop">children</span>: <span className="tk-fn">React.ReactNode</span> <span className="doc-p">{"}"}) {"{"}</span></pre>
                         <pre> <span className="tk-kw">{"\treturn ("}</span></pre>
@@ -486,7 +486,7 @@ export default function Docs() {
                         <pre> <span className="tk-kw">{"\t\t\t<body>"}</span></pre>
                         <pre> <span className="doc-p">{"\t\t\t\t{children}"}</span></pre>
                         <pre> <span className="tk-kw">{"\t\t\t\t<"}</span><span className="tk-kw">ChatWidget</span></pre>
-                        <pre> <span className="tk-prop">{"\t\t\t\t\tappKey"}</span><span className="doc-p">=</span><span className="tk-kw">{"{process.env.NEXT_PUBLIC_DOCLESSAI_KEY}"}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\t\t\t\tappKey"}</span><span className="doc-p">=</span><span className="tk-kw">{"{process.env.NEXT_PUBLIC_AGBASE_KEY}"}</span></pre>
                         <pre> <span className="tk-prop">{"\t\t\t\t\tname"}</span><span className="doc-p">=</span><span className="tk-str">{"\"Aria\""}</span></pre>
                         <pre> <span className="tk-kw">{"\t\t\t\t/>"}</span></pre>
                         <pre> <span className="tk-kw">{"\t\t\t</body>"}</span></pre>
@@ -522,7 +522,7 @@ export default function Docs() {
                     <h2 className="doc-h2">TypeScript Types</h2>
                     <div className="mockup-code text-start" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></pre>
+                        <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
                         <br />
                         <pre> <span className="tk-kw">const</span> <span className="doc-p">res:</span><span className="text-[#c084fc]"> AssistantResponse</span> <span className="doc-p">=</span> <span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(</span><span className="tk-str">{"'How do I export data?'"}</span><span className="doc-p">)</span></pre>
                     </div>
