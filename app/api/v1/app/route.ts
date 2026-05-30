@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
                         },
                     });
                 }
-                sendStatus("⚡ Activating DoclessAI...");
+                sendStatus("⚡ Activating AGBase...");
                 sendFinal({
                     success: true,
                     message: "App Created Successfully",

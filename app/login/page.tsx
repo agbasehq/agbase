@@ -27,7 +27,7 @@ export default function Login() {
             <div className="card w-96 bg-base-100 shadow-md">
                 <div className="card-body" id="login">
                     <div className="flex flex-col gap-2 items-center">
-                        <div className={`${appNameFont.className} text-4xl`}>DoclessAI</div>
+                        <div className={`${appNameFont.className} text-4xl`}>AGBase</div>
                         <p>Login to get started</p>
                     </div>
                     <div className="flex flex-col gap-4 text-center mt-6">

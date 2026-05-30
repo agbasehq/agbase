@@ -8,8 +8,8 @@ export default function Hero() {
         <section className="hero overflow-x-hidden" id="home">
             <div className="hero-glow"></div>
             <div className="hero-content flex-col">
-                <div className="hero-badge">Now on npm · @doclessai/sdk</div>
-                <h1 className="mb-5 font-bold leading-[1.08] tracking-[-1.5px] text-[clamp(36px,6vw,68px)]">DoclessAI <br />
+                <div className="hero-badge">Now on npm · @agbase/sdk</div>
+                <h1 className="mb-5 font-bold leading-[1.08] tracking-[-1.5px] text-[clamp(36px,6vw,68px)]">AGBase <br />
                     <span className="bg-linear-to-br from-[#a29dff] via-[#6c63ff] via-45% to-[#4f8bf9] bg-clip-text text-transparent">Your app explains itself.</span>
                 </h1>
                 <p className="hero-sub">Embed a context-aware AI assistant with your app knowledge into any application. Users ask
@@ -20,12 +20,12 @@ export default function Hero() {
                         rel="noopener noreferrer" className="btn-outline">View on GitHub</Link>
                 </div>
                 <div className="npm-tag">
-                    <pre><code className="cmd">$ npm i @doclessai/sdk</code></pre>
+                    <pre><code className="cmd">$ npm i @agbase/sdk</code></pre>
                 </div>
                 <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                     <span className="file-name">App.tsx</span>
                     <div className="code-body max-w-64 text-start">
-                        <pre data-prefix="1"><code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@doclessai/sdk'"}</span></code></pre>
+                        <pre data-prefix="1"><code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>
                         <pre data-prefix="2"><code></code></pre>
                         <pre data-prefix="3"><code><span className="tk-kw">export default function</span> <span className="tk-fn">App</span><span className="text-[#3b4460]">{"()"}</span><span className="tk-kw">{"\t{"}</span></code></pre>
                         <pre data-prefix="4"><code className="tk-kw">{"\treturn ("}</code></pre>

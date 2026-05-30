@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Get Started With DoclessAI",
+    title: "Get Started With AGBase",
 };
 
 export default function DocumentationLayout({
