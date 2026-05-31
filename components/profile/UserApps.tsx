@@ -8,15 +8,16 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Edit, Trash } from "lucide-react";
 import { AppType } from "@/types/global.types";
+import { useSession } from "next-auth/react";
 
 export default function UserApps() {
     const data = useSelector((state: user) => state.user);
     const router = useRouter();
-
+    const {data: session} = useSession();
     const [loading, setLoading] = useState<boolean>(false);
     const [apps, setApps] = useState<AppType[]>([]);
 
-    const userId = data?.userData?._id;
+    const userId = data?.userData?._id || session?.user?.id;
 
     const fetchApps = async () => {
         if (!userId) return;

@@ -10,8 +10,10 @@ import toast from "react-hot-toast";
 import {useDispatch, useSelector} from "react-redux"
 import UserApps from "@/components/profile/UserApps";
 import QuickLinks from "@/components/profile/QuickLinks";
+import { useSession } from "next-auth/react";
 
 export default function Profile() {
+    const {data: session} = useSession();
     const data = useSelector((state: user) => state.user)
     const [edit, setEdit] = useState<boolean>(false);
     const [userName, setUserName] = useState("")
@@ -68,10 +70,10 @@ export default function Profile() {
                           onClick={() => setEdit(!edit)}/>
                     {!edit && (
                         <div className="flex sm:flex-row flex-col justify-center gap-6 items-center">
-                            {data?.userData?.image || data?.authUser?.image ? (
+                            {data?.userData?.image || data?.authUser?.image || session?.user.image ? (
                                 <div className="avatar">
                                     <div className="w-24 rounded-full">
-                                        <Image src={data.userData?.image || data?.authUser?.image} alt="userImg"
+                                        <Image src={data.userData?.image || data?.authUser?.image || session?.user.image!} alt="userImg"
                                                className="rounded-full" style={{width: 100, height: 100}} width={100}
                                                height={100} loading="eager"/>
                                     </div>
@@ -79,21 +81,21 @@ export default function Profile() {
                             ) : (
                                 <div
                                     className="rounded-full w-40 h-40 flex justify-center items-center shadow-md text-5xl font-bold bg-base-100">
-                                    {data?.userData?.username[0]}
+                                    {data?.userData?.username[0] || session?.user.name![0]}
                                 </div>
                             )}
-                            <div className="text-2xl font-bold">{data?.userData?.username}</div>
+                            <div className="text-2xl font-bold">{data?.userData?.username || session?.user.name}</div>
                         </div>
                     )}
                     {edit && (
                         <div className="flex sm:flex-row flex-col justify-center gap-6 items-center">
-                            {data?.userData?.image || data?.authUser?.image ? (
+                            {data?.userData?.image || data?.authUser?.image || session?.user.image ? (
                                 <div className="relative flex justify-center items-center"
                                      onClick={() => imageRef.current?.click()}>
                                     <Camera className="absolute cursor-pointer" size={50}/>
                                     <input type="file" accept="image/*" hidden ref={imageRef} onChange={handleImage}/>
                                     <Image
-                                        src={frontendImage || data?.userData?.image || data?.authUser?.image}
+                                        src={frontendImage || data?.userData?.image || data?.authUser?.image || session?.user.image!}
                                         width={100}
                                         height={100}
                                         alt="Profile Image"
@@ -113,18 +115,18 @@ export default function Profile() {
                                                onChange={handleImage}/>
                                         <Camera className="absolute" size={50}/>
                                         <span style={{color: 'white'}}>
-                                        {data?.userData?.username[0]}
+                                        {data?.userData?.username[0] || session?.user.name![0]}
                                     </span>
                                     </div>
                                 ) : (
-                                    <Image src={frontendImage} alt="Profile Image" width={100} height={100}
+                                    <Image src={frontendImage || session?.user.image!} alt="Profile Image" width={100} height={100}
                                            title="Profile image" className="rounded-full shadow-md cursor-pointer"
                                            style={{width: 100, height: 100}}/>
                                 )
                             )}
                             <div className="flex flex-col gap-4 sm:flex-row">
                                 <input type="text"
-                                       value={userName}
+                                       value={userName || session?.user.name!}
                                        className="input"
                                        name="username"
                                        onChange={(e) => setUserName(e.target.value)}/>

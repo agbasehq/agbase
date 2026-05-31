@@ -119,7 +119,10 @@ export default function Register() {
                                 letter
                             </p>
                         </div>
-                        <button className="btn" onClick={() => handleSignUp({formValue, dispatch})}>{authLoad ? (
+                        <button className="btn" onClick={async () => {
+                            await handleSignUp({formValue, dispatch});
+                            router.push('/');
+                        }}>{authLoad ? (
                             <span className="loading loading-spinner text-neutral"></span>
                         ) : "Register"}</button>
                         <div>
