@@ -16,7 +16,7 @@ export default function Hero() {
                     questions — the AI will answer it.</p>
                 <div className="hero-actions">
                     <Link href='/docs' className="btn-primary">Start Building</Link>
-                    <Link href='https://github.com/Dattatray8/doclessai-sdk' target="_blank"
+                    <Link href='https://github.com/agbasehq/agbase-sdk' target="_blank"
                         rel="noopener noreferrer" className="btn-outline">View on GitHub</Link>
                 </div>
                 <div className="npm-tag">

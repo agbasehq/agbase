@@ -10,8 +10,8 @@ export const Footertabs: FooterTypes[] = [
     {
         title: "Developers",
         tabs: [
-            { title: "Github", href: "https://github.com/Dattatray8/doclessai-sdk" },
-            { title: "npm", href: "https://www.npmjs.com/package/@doclessai/sdk" },
+            { title: "Github", href: "https://github.com/agbasehq/agbase-sdk" },
+            { title: "npm", href: "https://www.npmjs.com/package/@agbase/sdk" },
             { title: "Quickstart", href: "/docs#quickstart" }
         ]
     },
@@ -52,7 +52,7 @@ export const features: Feature[] = [
         {
             icon: "🔧",
             title: "Headless SDK",
-            description: "Want full control over the UI? Use DoclessClient directly. Build your own chat interface, powered by our intelligence layer.",
+            description: "Want full control over the UI? Use AGBaseClient directly. Build your own chat interface, powered by our intelligence layer.",
             className: "fi-b"
         },
         {
@@ -80,7 +80,7 @@ export const steps: Steps[] = [
             id: "03",
             icon: "📦",
             title: "Install the SDK",
-            desc: "npm install @agbase/sdk. Add ChatWidget or use DoclessClient for a custom UI."
+            desc: "npm install @agbase/sdk. Add ChatWidget or use AGBaseClient for a custom UI."
         },
         {
             id: "04",
@@ -101,7 +101,7 @@ export const QuickLinksData: QuickLink[] = [
         icon: "📦",
         title: "npm Package",
         description: "@agbase/sdk · View on npm, check version, read changelog.",
-        href: "https://www.npmjs.com/package/@doclessai/sdk",
+        href: "https://www.npmjs.com/package/@agbase/sdk",
         external: true
     }
 ]
@@ -121,7 +121,7 @@ export const sections = [
         items: [
             { id: "chat-widget", title: "ChatWidget (React)" },
             { id: "html-script", title: "HTML Script Tag" },
-            { id: "headless", title: "DoclessClient (Headless)" },
+            { id: "headless", title: "AGBaseClient (Headless)" },
             { id: "nextjs", title: "Next.js Setup" },
         ],
     },

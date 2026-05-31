@@ -70,7 +70,7 @@ export default function Docs() {
                         <div className="bg-(--bg2) rounded-[11px] border border-[#FFFFFF0F] p-4.5">
                             <div className="mb-2.5 text-[18px]">🔧</div>
                             <div className="text-[13.5px] font-semibold mb-1.5">
-                                DoclessClient
+                                AGBaseClient
                             </div>
                             <div className="text-[12.5px] text-(--muted2) leading-relaxed">
                                 Headless client. Build your own chat UI and call
@@ -414,7 +414,7 @@ export default function Docs() {
                         <span className="file-name">HTML</span>
                         <pre> <span className="tk-cmt">&lt;!-- Before closing &lt;/body&gt; --&gt;</span></pre>
                         <pre> <span className="tk-kw">{"<script"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\tsrc"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"https://cdn.jsdelivr.net/npm/@doclessai/sdk@0.3.5/dist/loader.standalone.js\""}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tsrc"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"https://cdn.jsdelivr.net/npm/@agbase/sdk@0.4.0/dist/loader.standalone.js\""}</span></pre>
                         <pre> <span className="tk-prop">{"\t\tdata-app-key"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"your-app-key-here\""}</span></pre>
                         <pre> <span className="tk-prop">{"\t\tdata-name"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"YOUR_ASSISTANT_NAME\""}</span></pre>
                         <pre> <span className="tk-kw">{"></script>"}</span></pre>
@@ -432,7 +432,7 @@ export default function Docs() {
                 <hr className="doc-divider" />
 
                 <div id="headless">
-                    <h2 className="doc-h2">DoclessClient (Headless)</h2>
+                    <h2 className="doc-h2">AGBaseClient (Headless)</h2>
                     <p className="doc-p">
                         Use the client directly if you want to build your own chat UI. You
                         handle the interface — we handle the AI.
@@ -440,9 +440,9 @@ export default function Docs() {
 
                     <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
                         <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">DoclessClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
+                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">AGBaseClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
                         <br />
-                        <pre> <span className="tk-kw">const</span> <span className="doc-p">ai = </span><span className="tk-kw">new</span> <span className="tk-fn">DoclessClient</span><span className="tk-kw">({"{"}</span></pre>
+                        <pre> <span className="tk-kw">const</span> <span className="doc-p">ai = </span><span className="tk-kw">new</span> <span className="tk-fn">AGBaseClient</span><span className="tk-kw">({"{"}</span></pre>
                         <pre> <span className="tk-prop">{"\tappKey"}</span>: <span className="tk-str">{"'your-app-key-here'"}</span></pre>
                         <pre> <span className="tk-kw">{"})"}</span></pre>
                         <br />
@@ -503,7 +503,7 @@ export default function Docs() {
                     <h2 className="doc-h2">Response Format</h2>
                     <p className="doc-p">
                         Both ChatWidget and
-                        <code className="inline">DoclessClient.ask()</code> return the same
+                        <code className="inline">AGBaseClient.ask()</code> return the same
                         response shape:
                     </p>
                     <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>

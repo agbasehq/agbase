@@ -12,7 +12,7 @@ const CTA = () => {
                 <div className='flex gap-2.5 justify-center flex-wrap'>
                     <Link href="/docs" className="btn-primary">Read the docs →</Link>
                     <Link
-                        href="https://www.npmjs.com/package/@doclessai/sdk"
+                        href="https://www.npmjs.com/package/@agbase/sdk"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-outline"
