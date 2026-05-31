@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Archivo_Black, Sora } from "next/font/google";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { ChatWidget } from "@doclessai/sdk";
+import { ChatWidget } from "@agbase/sdk";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -36,7 +36,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         <li><Link href="/docs" className={tabFont.className}>Docs</Link></li>
                         <li>
                             <Link
-                                href="https://github.com/Dattatray8/doclessai-sdk"
+                                href="https://github.com/agbasehq/agbase-sdk"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >GitHub
@@ -76,7 +76,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                                 </li>
                                 <li>
                                     <Link
-                                        href="https://github.com/Dattatray8/doclessai-sdk"
+                                        href="https://github.com/agbasehq/agbase-sdk"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className={`${tabFont.className} text-(--muted2) hover:text-(--text) block py-2 transition-colors`}

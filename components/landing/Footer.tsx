@@ -29,10 +29,10 @@ const Footer = () => {
                     <span>© 2026 AGBase · Built by <Link href={"https://github.com/Dattatray8"} target="_blank"
                         rel="noopener noreferrer" className="text-(--accent)">Dattatray</Link></span>
                     <div className="footer-links-row">
-                        <Link href={"https://github.com/Dattatray8/doclessai-sdk"}
+                        <Link href={"https://github.com/agbasehq/agbase-sdk"}
                             target="_blank"
                             rel="noopener noreferrer">Github</Link>
-                        <Link href={"https://www.npmjs.com/package/@doclessai/sdk"}
+                        <Link href={"https://www.npmjs.com/package/@agbase/sdk"}
                             target="_blank"
                             rel="noopener noreferrer">npm</Link>
                         <Link href={"/privacy"}>Privacy</Link>
