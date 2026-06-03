@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { ChatWidget } from "@agbase/sdk";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { authClient } from "@/lib/auth-client";
 
 const appNameFont = Archivo_Black({
     subsets: ['latin'],
@@ -19,7 +20,9 @@ const tabFont = Sora({
 })
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
+    const { data: session, isPending } = authClient.useSession();
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -44,7 +47,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                         </li>
                     </ul>
                     <div className="nav-actions">
-                        {session?.user ? (
+                        {session?.user.id ? (
                             <Link href="/user" className={`btn-nav-ghost ${tabFont.className}`}>Dashboard</Link>
                         ) : (
                             <Link href="/login" className={`btn-nav-ghost ${tabFont.className}`}>Login</Link>
@@ -61,7 +64,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 </div>
                 <AnimatePresence>
                     {isMenuOpen && (
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
@@ -85,9 +88,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                                     </Link>
                                 </li>
                                 <li className="pt-2">
-                                    <Link 
-                                        href="/docs" 
-                                        className={`btn-nav-primary ${tabFont.className} block text-center w-full py-2.5`} 
+                                    <Link
+                                        href="/docs"
+                                        className={`btn-nav-primary ${tabFont.className} block text-center w-full py-2.5`}
                                         onClick={() => setIsMenuOpen(false)}
                                     >
                                         Get Started

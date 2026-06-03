@@ -13,6 +13,16 @@ export const getUser = async (dispatch: AppDispatch) => {
   }
 };
 
+// export const getUser = async (dispatch: AppDispatch) => {
+//   try {
+//     const res = await axios.get("http://localhost:3001/user", { withCredentials: true });
+//     console.log(res)
+//     // dispatch(setUserData(res?.data.user));
+//   } catch (error: any) {
+//     console.log(error);
+//   }
+// };
+
 export const handleSignOut = async (
   router: AppRouterInstance,
   dispatch: AppDispatch,

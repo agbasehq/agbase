@@ -54,6 +54,7 @@ export const handleLogin = async ({
       password: formValue.password,
       redirect: false,
     });
+    console.log(res);
     if (res?.ok) {
       toast.success("Login Successful!");
     } else {

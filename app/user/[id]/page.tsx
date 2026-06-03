@@ -1,19 +1,22 @@
 'use client'
 
-import {setUserData} from "@/redux/userSlice";
-import {user} from "@/types/redux.types";
+import { setUserData } from "@/redux/userSlice";
+import { user } from "@/types/redux.types";
 import axios from "axios";
-import {Camera, Pencil, X} from "lucide-react";
+import { Camera, Pencil, X } from "lucide-react";
 import Image from "next/image";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import UserApps from "@/components/profile/UserApps";
 import QuickLinks from "@/components/profile/QuickLinks";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 export default function Profile() {
-    const {data: session} = useSession();
+    // const { data: session } = useSession();
+    const { data: session, isPending } = authClient.useSession();
     const data = useSelector((state: user) => state.user)
     const [edit, setEdit] = useState<boolean>(false);
     const [userName, setUserName] = useState("")
@@ -22,6 +25,7 @@ export default function Profile() {
     const imageRef = useRef<HTMLInputElement>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const dispatch = useDispatch();
+    const router = useRouter();
     const Icon = edit ? X : Pencil
     useEffect(() => {
         if (data?.userData) {
@@ -47,7 +51,7 @@ export default function Profile() {
             if (backendImage) {
                 formData.append("file", backendImage!);
             }
-            const res = await axios.put('/api/v1/user', formData, {withCredentials: true})
+            const res = await axios.put('/api/v1/user', formData, { withCredentials: true })
             dispatch(setUserData(res?.data.user))
             toast.success(res?.data.message)
             setEdit(false);
@@ -62,20 +66,29 @@ export default function Profile() {
         }
     }
 
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+            router.push('/login')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="page">
             <div className="card bg-base-300">
                 <div className="card-body" id="profile">
                     <Icon className="absolute right-6 cursor-pointer hover:text-accent transition-all"
-                          onClick={() => setEdit(!edit)}/>
+                        onClick={() => setEdit(!edit)} />
                     {!edit && (
                         <div className="flex sm:flex-row flex-col justify-center gap-6 items-center">
                             {data?.userData?.image || data?.authUser?.image || session?.user.image ? (
                                 <div className="avatar">
                                     <div className="w-24 rounded-full">
-                                        <Image src={data.userData?.image || data?.authUser?.image || session?.user.image!} alt="userImg"
-                                               className="rounded-full" style={{width: 100, height: 100}} width={100}
-                                               height={100} loading="eager"/>
+                                        <Image src={data.userData?.image || data?.authUser?.image || session?.user.image} alt="userImg"
+                                            className="rounded-full" style={{ width: 100, height: 100 }} width={100}
+                                            height={100} loading="eager" />
                                     </div>
                                 </div>
                             ) : (
@@ -91,45 +104,45 @@ export default function Profile() {
                         <div className="flex sm:flex-row flex-col justify-center gap-6 items-center">
                             {data?.userData?.image || data?.authUser?.image || session?.user.image ? (
                                 <div className="relative flex justify-center items-center"
-                                     onClick={() => imageRef.current?.click()}>
-                                    <Camera className="absolute cursor-pointer" size={50}/>
-                                    <input type="file" accept="image/*" hidden ref={imageRef} onChange={handleImage}/>
+                                    onClick={() => imageRef.current?.click()}>
+                                    <Camera className="absolute cursor-pointer" size={50} />
+                                    <input type="file" accept="image/*" hidden ref={imageRef} onChange={handleImage} />
                                     <Image
-                                        src={frontendImage || data?.userData?.image || data?.authUser?.image || session?.user.image!}
+                                        src={frontendImage || data?.userData?.image || data?.authUser?.image || session?.user.image}
                                         width={100}
                                         height={100}
                                         alt="Profile Image"
                                         title="Profile image"
                                         className="rounded-full shadow-md cursor-pointer"
                                         loading="eager"
-                                        style={{width: 100, height: 100}}
+                                        style={{ width: 100, height: 100 }}
                                     />
                                 </div>
                             ) : (
                                 !frontendImage ? (
                                     <div
                                         className="rounded-full w-40 h-40 flex cursor-pointer transition-all justify-center items-center shadow-md text-5xl font-bold opacity-60"
-                                        style={{backgroundColor: '#00000070'}}
+                                        style={{ backgroundColor: '#00000070' }}
                                         onClick={() => imageRef.current?.click()}>
                                         <input type="file" accept="image/*" hidden ref={imageRef}
-                                               onChange={handleImage}/>
-                                        <Camera className="absolute" size={50}/>
-                                        <span style={{color: 'white'}}>
-                                        {data?.userData?.username[0] || session?.user.name![0]}
-                                    </span>
+                                            onChange={handleImage} />
+                                        <Camera className="absolute" size={50} />
+                                        <span style={{ color: 'white' }}>
+                                            {data?.userData?.username[0] || session?.user.name![0]}
+                                        </span>
                                     </div>
                                 ) : (
-                                    <Image src={frontendImage || session?.user.image!} alt="Profile Image" width={100} height={100}
-                                           title="Profile image" className="rounded-full shadow-md cursor-pointer"
-                                           style={{width: 100, height: 100}}/>
+                                    <Image src={frontendImage || session?.user.image} alt="Profile Image" width={100} height={100}
+                                        title="Profile image" className="rounded-full shadow-md cursor-pointer"
+                                        style={{ width: 100, height: 100 }} />
                                 )
                             )}
                             <div className="flex flex-col gap-4 sm:flex-row">
                                 <input type="text"
-                                       value={userName || session?.user.name!}
-                                       className="input"
-                                       name="username"
-                                       onChange={(e) => setUserName(e.target.value)}/>
+                                    value={userName || session?.user.name!}
+                                    className="input"
+                                    name="username"
+                                    onChange={(e) => setUserName(e.target.value)} />
                                 <button className="btn" onClick={handleEdit}>
                                     {loading ? (
                                         <span className="loading loading-spinner text-neutral"></span>
@@ -140,8 +153,16 @@ export default function Profile() {
                     )}
                 </div>
             </div>
-            <UserApps/>
+            <UserApps />
             <QuickLinks />
+
+            <div className="flex justify-center mt-20"><span className="text-error w-fit cursor-pointer" onClick={async () => await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        router.push('/login')
+                    }
+                }
+            })}>Logout</span></div>
         </div>
     )
 }
