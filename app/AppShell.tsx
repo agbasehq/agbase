@@ -3,11 +3,11 @@
 import { Menu, X } from "lucide-react";
 import { Archivo_Black, Sora } from "next/font/google";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import { ChatWidget } from "@agbase/sdk";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
+import { usePathname } from "next/navigation";
 
 const appNameFont = Archivo_Black({
     subsets: ['latin'],
@@ -26,6 +26,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const pathname = usePathname();;
 
     return (
         <div className="relative">
@@ -48,7 +49,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </ul>
                     <div className="nav-actions">
                         {session?.user.id ? (
-                            <Link href="/user" className={`btn-nav-ghost ${tabFont.className}`}>Dashboard</Link>
+                            pathname.startsWith('/user') ? (
+                                <span className={`btn-nav-ghost ${tabFont.className}`}>Dashboard</span>
+
+                            ) : (
+                                <Link href="/user" className={`btn-nav-ghost ${tabFont.className}`}>Dashboard</Link>
+                            )
                         ) : (
                             <Link href="/login" className={`btn-nav-ghost ${tabFont.className}`}>Login</Link>
                         )}

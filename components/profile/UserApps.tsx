@@ -13,31 +13,50 @@ import { useSession } from "next-auth/react";
 export default function UserApps() {
     const data = useSelector((state: user) => state.user);
     const router = useRouter();
-    const {data: session} = useSession();
+    const { data: session } = useSession();
     const [loading, setLoading] = useState<boolean>(false);
     const [apps, setApps] = useState<AppType[]>([]);
 
     const userId = data?.userData?._id || session?.user?.id;
+
+    // const fetchApps = async () => {
+    //     if (!userId) return;
+
+    //     try {
+    //         setLoading(true);
+    //         const res = await axios.get(`/api/v1/app`, {
+    //             params: { userId: userId },
+    //             withCredentials: true,
+    //         });
+    //         setApps(res?.data?.apps || []);
+    //     } catch
+    //     (error: any) {
+    //         setLoading(false);
+    //         console.error(error.response.data);
+    //         toast.error(error?.response?.data?.message || "Failed to fetch apps");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
     const fetchApps = async () => {
         if (!userId) return;
 
         try {
             setLoading(true);
-            const res = await axios.get(`/api/v1/app`, {
-                params: { userId: userId },
+            const res = await axios.get(`http://localhost:3001/app/${userId}`, {
                 withCredentials: true,
             });
-            setApps(res?.data?.apps || []);
+            setApps(res?.data || []);
         } catch
         (error: any) {
             setLoading(false);
-            console.error(error.response.data);
-            toast.error(error?.response?.data?.message || "Failed to fetch apps");
+            toast.error(error?.response?.data?.message || error?.message || "Failed to fetch apps");
         } finally {
             setLoading(false);
         }
     }
+
     const deleteApp = async (id: string) => {
         try {
             if (!id) {
