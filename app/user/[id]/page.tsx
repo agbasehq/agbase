@@ -86,7 +86,7 @@ export default function Profile() {
                             {data?.userData?.image || data?.authUser?.image || session?.user.image ? (
                                 <div className="avatar">
                                     <div className="w-24 rounded-full">
-                                        <Image src={data.userData?.image || data?.authUser?.image || session?.user.image} alt="userImg"
+                                        <Image src={data.userData?.image || data?.authUser?.image || session!.user.image!} alt="userImg"
                                             className="rounded-full" style={{ width: 100, height: 100 }} width={100}
                                             height={100} loading="eager" />
                                     </div>
@@ -108,7 +108,7 @@ export default function Profile() {
                                     <Camera className="absolute cursor-pointer" size={50} />
                                     <input type="file" accept="image/*" hidden ref={imageRef} onChange={handleImage} />
                                     <Image
-                                        src={frontendImage || data?.userData?.image || data?.authUser?.image || session?.user.image}
+                                        src={frontendImage || data?.userData?.image || data?.authUser?.image || session!.user.image!}
                                         width={100}
                                         height={100}
                                         alt="Profile Image"
@@ -132,14 +132,14 @@ export default function Profile() {
                                         </span>
                                     </div>
                                 ) : (
-                                    <Image src={frontendImage || session?.user.image} alt="Profile Image" width={100} height={100}
+                                    <Image src={frontendImage || session!.user.image!} alt="Profile Image" width={100} height={100}
                                         title="Profile image" className="rounded-full shadow-md cursor-pointer"
                                         style={{ width: 100, height: 100 }} />
                                 )
                             )}
                             <div className="flex flex-col gap-4 sm:flex-row">
                                 <input type="text"
-                                    value={userName || session?.user.name!}
+                                    value={userName || session!.user.name!}
                                     className="input"
                                     name="username"
                                     onChange={(e) => setUserName(e.target.value)} />
