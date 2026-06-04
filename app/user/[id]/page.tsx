@@ -34,6 +34,14 @@ export default function Profile() {
         }
     }, [data?.userData])
 
+    useEffect(() => {
+        if (data?.userData?.username) {
+            setUserName(data.userData.username);
+        } else if (session?.user?.name) {
+            setUserName(session.user.name);
+        }
+    }, [data?.userData?.username, session?.user?.name]);
+
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
         if (!files || files.length === 0) {
@@ -43,6 +51,29 @@ export default function Profile() {
         setFrontendImage(URL.createObjectURL(files[0]))
     }
 
+    // const handleEdit = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append("name", userName)
+    //         if (backendImage) {
+    //             formData.append("file", backendImage!);
+    //         }
+    //         const res = await axios.put('/api/v1/user', formData, { withCredentials: true })
+    //         dispatch(setUserData(res?.data.user))
+    //         toast.success(res?.data.message)
+    //         setEdit(false);
+    //         setLoading(false);
+    //     } catch (error: any) {
+    //         setEdit(false);
+    //         toast.error(error.response.data.message)
+    //         console.log(error);
+    //     } finally {
+    //         setEdit(false);
+    //         setLoading(false);
+    //     }
+    // }
+
     const handleEdit = async () => {
         setLoading(true);
         try {
@@ -51,9 +82,9 @@ export default function Profile() {
             if (backendImage) {
                 formData.append("file", backendImage!);
             }
-            const res = await axios.put('/api/v1/user', formData, { withCredentials: true })
-            dispatch(setUserData(res?.data.user))
-            toast.success(res?.data.message)
+            const res = await axios.patch('http://localhost:3001/user', formData, { withCredentials: true })
+            dispatch(setUserData(res?.data))
+            toast.success("Profile Updated Successfully");
             setEdit(false);
             setLoading(false);
         } catch (error: any) {
@@ -139,7 +170,7 @@ export default function Profile() {
                             )}
                             <div className="flex flex-col gap-4 sm:flex-row">
                                 <input type="text"
-                                    value={userName || session!.user.name!}
+                                    value={userName}
                                     className="input"
                                     name="username"
                                     onChange={(e) => setUserName(e.target.value)} />
