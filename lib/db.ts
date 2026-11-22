@@ -21,9 +21,11 @@ const connectDB = async () => {
     cached.promise = connect(MONGO_URL).then((c) => c.connection);
     console.log("DB connected successfully.");
   }
+  const pending = cached.promise;
   try {
-    cached.conn = await cached.promise;
+    cached.conn = await pending;
   } catch (error) {
+    if (cached.promise === pending) cached.promise = null;
     throw error;
   }
   return cached.conn;

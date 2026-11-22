@@ -6,14 +6,12 @@ import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/redux/userSlice";
 
 export default function SessionHydrator() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (session?.user) {
-            dispatch(setAuthUser(session.user));
-        }
-    }, [session, dispatch]);
+        if (status !== "loading") dispatch(setAuthUser(session?.user ?? null));
+    }, [session, status, dispatch]);
 
     return null;
 }

@@ -1,24 +1,28 @@
 import {qdrantClient} from "@/lib/qdrant";
 
 export async function ensureQdrantCollection() {
-    const collectionName = process.env.QDRANT_COLLECTION!;
+    const collectionName = process.env.QDRANT_COLLECTION;
+    if (!collectionName) throw new Error("Missing QDRANT_COLLECTION");
 
-    const collections = await qdrantClient.getCollections();
-    const exists = collections.collections?.some(
-        (c) => c.name === collectionName
+    const exists = async () => (await qdrantClient.getCollections()).collections.some(
+        (collection) => collection.name === collectionName,
     );
 
-    if (exists) {
-        console.log("Qdrant collection already exists:", collectionName);
-        return;
+    if (!await exists()) {
+        try {
+            await qdrantClient.createCollection(collectionName, {
+                vectors: {size: 768, distance: "Cosine"},
+            });
+        } catch (error) {
+            if (!await exists()) throw error;
+        }
     }
 
-    await qdrantClient.createCollection(collectionName, {
-        vectors: {
-            size: 768,
-            distance: "Cosine",
-        },
-    });
-
-    console.log("Created Qdrant collection:", collectionName);
+    for (const field of ["appId", "mongoFeatureId"]) {
+        await qdrantClient.createPayloadIndex(collectionName, {
+            field_name: field,
+            field_schema: "keyword",
+            wait: true,
+        });
+    }
 }

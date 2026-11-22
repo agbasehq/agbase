@@ -2,10 +2,10 @@ import React from 'react';
 
 const LoadingSpinner: React.FC = () => {
     return (
-        <div className="flex items-center justify-center mt-40">
-            <div className="text-center space-y-4">
+        <div className="page" role="status">
+            <div className="page-feedback text-center space-y-4">
                 <span className="loading loading-ring loading-lg text-primary"></span>
-                <p className="text-base-content/70">Please wait...</p>
+                <p className="text-base-content/70">Loading AGBase...</p>
             </div>
         </div>
     );

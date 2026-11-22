@@ -2,12 +2,15 @@
 
 import toast from "react-hot-toast";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import Link from "next/link";
+import {use, useEffect, useState} from "react";
 import {AppType, DEFAULT_FEATURES_JSON, Feature} from "@/types/global.types";
 import {useRouter} from "next/navigation";
 import {Editor} from "@monaco-editor/react";
 
-export default function EditApp({params}: { params: { appId: string } }) {
+export default function EditApp({params}: { params: Promise<{ appId: string }> }) {
+    const {appId} = use(params);
+    const [loadError, setLoadError] = useState("");
     const [app, setApp] = useState<AppType>();
     const router = useRouter();
     const [name, setName] = useState("");
@@ -24,7 +27,7 @@ export default function EditApp({params}: { params: { appId: string } }) {
             setName(app.name || "");
             setContactEmail(app.contactEmail || "");
             setDescription(app.description || "");
-            const feats = app?.features.map((item: Feature) => ({
+            const feats = (app.features ?? []).map((item: Feature) => ({
                 name: item.name,
                 description: item.description,
                 route: item.route,
@@ -53,9 +56,9 @@ export default function EditApp({params}: { params: { appId: string } }) {
 
             setParsedFeatures(parsed);
             setFeaturesError(null);
-        } catch (err: any) {
+        } catch (err) {
             setParsedFeatures([]);
-            setFeaturesError(err.message || "Invalid JSON format");
+            setFeaturesError(err instanceof Error ? err.message : "Invalid JSON format");
         }
     }, [featuresJson]);
 
@@ -66,21 +69,15 @@ export default function EditApp({params}: { params: { appId: string } }) {
         parsedFeatures.length > 0 &&
         !featuresError;
 
-    const fetchApp = async () => {
-        try {
-            const resolvedParams = await params;
-            const res = await axios.get(`/api/v1/app`, {params: {appId: resolvedParams.appId}, withCredentials: true});
-            console.log(res.data);
-            setApp(res.data.app);
-        } catch (err: any) {
-            console.error(err.response.data);
-            toast.error(err?.response?.data?.message || "Failed to fetch app");
-        }
-    }
-
     useEffect(() => {
-        fetchApp();
-    }, [])
+        const controller = new AbortController();
+        axios.get<{app: AppType}>("/api/v1/app", {params: {appId}, signal: controller.signal})
+            .then(({data}) => setApp(data.app))
+            .catch((error: unknown) => {
+                if (!axios.isCancel(error)) setLoadError("We couldn't load this app.");
+            });
+        return () => controller.abort();
+    }, [appId]);
 
     const handleSaveApp = async () => {
         try {
@@ -98,26 +95,27 @@ export default function EditApp({params}: { params: { appId: string } }) {
             });
             toast.success(res.data.message);
             router.push('/user');
-        } catch (err: any) {
-            setLoading(false);
-            console.error(err.response.data);
-            toast.error(err?.response?.data?.message || "Failed to save app");
+        } catch (err) {
+            toast.error(axios.isAxiosError<{message?: string}>(err) ? err.response?.data.message || "Failed to save app" : "Failed to save app");
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div className="card">
-            {app && (
-                <div className="card-body">
-                    <div className="text-2xl font-semibold">Edit your App</div>
+        <main className="page">
+            <Link href="/user" className="page-breadcrumb">Dashboard</Link>
+            {loadError ? <p className="page-feedback" role="alert">{loadError}</p> : !app ? (
+                <p className="page-feedback" role="status">Loading app...</p>
+            ) : (
+                <div className="panel">
+                    <h1 className="page-title">Edit app</h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <input
                             type="text"
                             className="input w-full"
-                            placeholder="App name"
+                            placeholder="App name" aria-label="App name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
@@ -125,7 +123,7 @@ export default function EditApp({params}: { params: { appId: string } }) {
                         <input
                             type="email"
                             className="input w-full"
-                            placeholder="Contact email"
+                            placeholder="Contact email" aria-label="Contact email"
                             value={contactEmail}
                             onChange={(e) => setContactEmail(e.target.value)}
                         />
@@ -134,7 +132,7 @@ export default function EditApp({params}: { params: { appId: string } }) {
                     <textarea
                         rows={4}
                         className="textarea w-full mt-4"
-                        placeholder="App description"
+                        placeholder="App description" aria-label="App description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
@@ -142,7 +140,7 @@ export default function EditApp({params}: { params: { appId: string } }) {
                     <input
                         type="password"
                         className="input w-full mt-4"
-                        placeholder="Gemini API Key"
+                        placeholder="Gemini API key (optional)" aria-label="Gemini API key (optional)"
                         value={geminiKey}
                         onChange={(e) => setGeminiKey(e.target.value)}
                     />
@@ -162,11 +160,12 @@ export default function EditApp({params}: { params: { appId: string } }) {
                             defaultLanguage="json"
                             value={featuresJson}
                             theme={"vs-dark"}
+                            options={{ariaLabel: "App features JSON", automaticLayout: true, minimap: {enabled: false}}}
                             onChange={(v) => setFeaturesJson(v || "")}
                         />
 
                         {featuresError ? (
-                            <div className="text-error text-sm mt-2">
+                            <div className="text-error text-sm mt-2" role="alert">
                                 ❌ {featuresError}
                             </div>
                         ) : (
@@ -185,6 +184,6 @@ export default function EditApp({params}: { params: { appId: string } }) {
                     </button>
                 </div>
             )}
-        </div>
+        </main>
     )
 }

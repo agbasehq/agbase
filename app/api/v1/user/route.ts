@@ -5,7 +5,7 @@ import {getServerSession} from "next-auth";
 import {NextRequest, NextResponse} from "next/server";
 import uploadOnCloudinary from "@/lib/cloudinary";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         await connectDB();
         const session = await getServerSession(authOptions);
@@ -37,12 +37,11 @@ export async function GET(request: NextRequest) {
             {status: 200},
         );
     } catch (error) {
-        console.log(error);
+        console.error("Legacy profile request failed", error instanceof Error ? error.name : "UnknownError");
         return NextResponse.json(
             {
                 success: false,
                 message: "Error in fetching profile",
-                error,
             },
             {status: 500},
         );
@@ -63,17 +62,25 @@ export async function PUT(request: NextRequest) {
             );
         }
         const formData = await request.formData();
-        const name = formData.get("name") as string;
-        const file = formData.get("file") as Blob | null;
-        const updateData: any = {username: name};
+        const name = formData.get("name");
+        const file = formData.get("file");
+        if ((name !== null && typeof name !== "string") || typeof file === "string") {
+            return NextResponse.json({success: false, message: "Invalid profile data"}, {status: 400});
+        }
+        const updateData: {username?: string; image?: string} = {};
+        if (name !== null) updateData.username = name;
 
         if (file) {
-            updateData.image = await uploadOnCloudinary(file);
+            const image = await uploadOnCloudinary(file);
+            if (!image) {
+                return NextResponse.json({success: false, message: "Profile image upload failed"}, {status: 502});
+            }
+            updateData.image = image;
         }
 
         const user = await User.findByIdAndUpdate(session.user.id, updateData, {
             new: true,
-        });
+        }).select("-password");
         if (!user) {
             return NextResponse.json(
                 {
@@ -92,12 +99,11 @@ export async function PUT(request: NextRequest) {
             {status: 200},
         );
     } catch (error) {
-        console.log(error);
+        console.error("Legacy profile request failed", error instanceof Error ? error.name : "UnknownError");
         return NextResponse.json(
             {
                 success: false,
                 message: "Error in updating profile",
-                error,
             },
             {status: 500},
         );

@@ -1,57 +1,48 @@
-'use client'
+"use client";
 
 import AppFeatures from "@/components/AppFeatures";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { use, useEffect, useState } from "react";
 import { AppType, Feature } from "@/types/global.types";
 import axios from "axios";
-import toast from "react-hot-toast";
 
-export default function App({ params }: { params: { appId: string } }) {
+export default function App({ params }: { params: Promise<{ id: string; appId: string }> }) {
+    const {id, appId} = use(params);
     const [app, setApp] = useState<AppType | null>(null);
-    const [features, setFeatures] = useState<Feature[]>([]);
-
-    const fetchApp = async () => {
-        const resolvedParams = await params;
-        try {
-            const res = await axios.get(`/api/v1/app`, { params: { appId: resolvedParams.appId }, withCredentials: true });
-            console.log(res.data);
-            setApp(res.data.app);
-        } catch (err: any) {
-            console.error(err.response.data);
-            toast.error(err?.response?.data?.message || "Failed to fetch app");
-        }
-    }
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        if (app) {
-            setFeatures(app?.features.map((item: Feature) => ({
-                name: item.name,
-                description: item.description,
-                route: item.route,
-                image: item.image,
-                elementId: item.elementId
-            })));
-        }
-    }, [app])
+        const controller = new AbortController();
+        axios.get<{app: AppType}>("/api/v1/app", { params: { appId }, signal: controller.signal }).then(({data}) => {
+            setApp(data.app);
+        }).catch((cause: unknown) => {
+            if (!axios.isCancel(cause)) setError("We couldn't load this app.");
+        });
+        return () => controller.abort();
+    }, [appId]);
 
-    useEffect(() => {
-        fetchApp();
-    }, [])
+    const features = app?.features?.map(({name, description, route, image, elementId}: Feature) =>
+        ({name, description, route, image, elementId})) ?? [];
 
     return (
-        <div className="card">
-            <div className="md:card-body">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <p className="input w-full">{app?.name}</p>
-                    <p className="input w-full">{app?.contactEmail}</p>
-                </div>
-
-                <p className="textarea w-full mt-4">{app?.description}</p>
-
-                <div className="mt-5">
+        <main className="page">
+            <Link href="/user" className="page-breadcrumb">Dashboard</Link>
+            {error ? <p role="alert" className="page-feedback">{error}</p> : !app ? (
+                <p role="status" className="page-feedback">Loading app...</p>
+            ) : (
+                <section className="panel">
+                    <header className="flex flex-wrap items-start justify-between gap-3">
+                        <h1 className="page-title">{app.name}</h1>
+                        <Link className="btn btn-outline" href={`/user/${id}/app/${appId}/edit`}>Edit app</Link>
+                    </header>
+                    <dl className="my-5 grid gap-4 break-words">
+                        <div><dt className="text-sm text-(--muted)">Contact email</dt><dd>{app.contactEmail}</dd></div>
+                        <div><dt className="text-sm text-(--muted)">Description</dt><dd className="whitespace-pre-wrap">{app.description}</dd></div>
+                    </dl>
+                    <h2 className="mb-3 text-lg font-semibold">App features</h2>
                     <AppFeatures featues={JSON.stringify(features, null, 2)} />
-                </div>
-            </div>
-        </div>
-    )
+                </section>
+            )}
+        </main>
+    );
 }

@@ -1,5 +1,11 @@
 import {ensureQdrantCollection} from "@/lib/qdrantSetup";
 
-export async function ensureQdrantReady() {
-    await ensureQdrantCollection();
+let initialization: Promise<void> | undefined;
+
+export function ensureQdrantReady() {
+    initialization ??= ensureQdrantCollection().catch((error: unknown) => {
+        initialization = undefined;
+        throw error;
+    });
+    return initialization;
 }
