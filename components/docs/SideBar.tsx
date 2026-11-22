@@ -23,17 +23,17 @@ const SideBar = () => {
             }
         )
 
-        const elements = document.querySelectorAll("main [id]")
+        const elements = document.querySelectorAll(".docs-main [id]")
 
         elements.forEach((el) => observer.observe(el))
 
         return () => {
-            elements.forEach((el) => observer.unobserve(el))
+            observer.disconnect()
         }
     }, [])
 
-    return (
-        <aside className="sidebar hidden lg:block w-120">
+    const items = (
+        <>
             {sections.map((section) => (
                 <div className="sidebar-section" key={section.label}>
                     <div className="sidebar-label">{section.label}</div>
@@ -43,6 +43,7 @@ const SideBar = () => {
                             <li key={item.id}>
                                 <Link
                                     href={`#${item.id}`}
+                                    aria-current={activeSection === item.id ? "location" : undefined}
                                     className={
                                         activeSection === item.id
                                             ? "active"
@@ -56,8 +57,20 @@ const SideBar = () => {
                     </ul>
                 </div>
             ))}
-        </aside>
-    )
+        </>
+    );
+
+    return (
+        <>
+            <details className="panel lg:hidden">
+                <summary className="cursor-pointer font-semibold">On this page</summary>
+                <nav className="mt-4" aria-label="Documentation sections">{items}</nav>
+            </details>
+            <aside className="sidebar hidden lg:block">
+                <nav aria-label="Documentation sections">{items}</nav>
+            </aside>
+        </>
+    );
 }
 
 export default SideBar

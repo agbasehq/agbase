@@ -2,16 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-import { user } from "@/types/redux.types";
 import { useRouter } from "next/navigation";
-import { DEFAULT_FEATURES_JSON } from "@/types/global.types";
+import { DEFAULT_FEATURES_JSON, type Feature } from "@/types/global.types";
 import Link from "next/link";
 
 export default function CreateApp() {
-    const data = useSelector((state: user) => state.user);
     const router = useRouter();
     const [name, setName] = useState("");
     const [contactEmail, setContactEmail] = useState("");
@@ -20,11 +17,11 @@ export default function CreateApp() {
 
     const [featuresJson, setFeaturesJson] = useState(DEFAULT_FEATURES_JSON);
     const [featuresError, setFeaturesError] = useState<string | null>(null);
-    const [parsedFeatures, setParsedFeatures] = useState<any[]>([]);
+    const [parsedFeatures, setParsedFeatures] = useState<Feature[]>([]);
 
     const [loading, setLoading] = useState(false);
     const [progressLogs, setProgressLogs] = useState<string[]>([]);
-    const [finalResult, setFinalResult] = useState<any>(null);
+    const [finalResult, setFinalResult] = useState<{appKey: string} | null>(null);
 
     useEffect(() => {
         try {
@@ -44,9 +41,9 @@ export default function CreateApp() {
 
             setParsedFeatures(parsed);
             setFeaturesError(null);
-        } catch (err: any) {
+        } catch (err) {
             setParsedFeatures([]);
-            setFeaturesError(err.message || "Invalid JSON format");
+            setFeaturesError(err instanceof Error ? err.message : "Invalid JSON format");
         }
     }, [featuresJson]);
 
@@ -82,9 +79,14 @@ export default function CreateApp() {
                     geminiKey,
                     contactEmail,
                     features: parsedFeatures,
-                    owner: data?.userData._id,
                 }),
             });
+
+            if (!res.ok) {
+                const error = await res.json();
+                toast.error(error.message || "Failed to create app");
+                return;
+            }
 
             if (!res.body) throw new Error("No response stream");
 
@@ -136,19 +138,19 @@ export default function CreateApp() {
                     <span>›</span>
                     <span className="text-(--text)">Create App</span>
                 </div>
-                <div className="page-title">Create a new app</div>
+                <h1 className="page-title">Create a new app</h1>
                 <div className="page-sub">
                     Your app&apos;s features teach the AI what your application does. Users
                     will chat with the assistant to get answers about these features.
                 </div>
             </div>
-            <dialog id="progress_modal" className="modal">
+            <dialog id="progress_modal" className="modal" aria-labelledby="create-progress-title">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg mb-2">
+                    <h2 className="font-bold text-lg mb-2" id="create-progress-title">
                         🚀 Creating your application...
-                    </h3>
+                    </h2>
 
-                    <ul className="space-y-1 text-sm font-mono max-h-60 overflow-auto">
+                    <ul role="log" className="space-y-1 text-sm font-mono max-h-60 overflow-auto">
                         {progressLogs.map((log, i) => (
                             <li key={i} className="opacity-80">
                                 {log}
@@ -167,11 +169,11 @@ export default function CreateApp() {
                 </div>
             </dialog>
 
-            <dialog id="success_modal" className="modal">
+            <dialog id="success_modal" className="modal" aria-labelledby="create-success-title">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">
+                    <h2 className="font-bold text-lg" id="create-success-title">
                         🎉 App Created Successfully!
-                    </h3>
+                    </h2>
 
                     <p className="mt-2 text-sm opacity-80">
                         This is your <b>App Key</b>. Copy it now — you won’t be able to see it again.
@@ -214,21 +216,23 @@ export default function CreateApp() {
                 <div className="create-app-section-label">App Details</div>
                 <div className="create-app-input-row">
                     <div className="create-app-input-group">
-                        <label className="create-app-input-label">App Name <span className="req">*</span></label>
+                        <label htmlFor="app-name" className="create-app-input-label">App Name <span className="req">*</span></label>
                         <input
                             type="text"
                             className="create-app-field-input"
                             placeholder="My SaaS App"
+                            id="app-name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
                     <div className="create-app-input-group">
-                        <label className="create-app-input-label">Contact email <span className="req">*</span></label>
+                        <label htmlFor="app-email" className="create-app-input-label">Contact email <span className="req">*</span></label>
                         <input
                             type="email"
                             className="create-app-field-input"
                             placeholder="you@example.com"
+                            id="app-email"
                             value={contactEmail}
                             onChange={(e) => setContactEmail(e.target.value)}
                         />
@@ -236,24 +240,26 @@ export default function CreateApp() {
                 </div>
 
                 <div className="create-app-input-group mb-3">
-                    <label className="create-app-input-label">App Description <span className="req">*</span></label>
+                    <label htmlFor="app-description" className="create-app-input-label">App Description <span className="req">*</span></label>
                     <textarea
                         rows={4}
                         className="create-app-field-textarea create-app-field-input"
                         placeholder="Describe what your app does overall — this helps the AI understand the context of all features."
-                        value={description}
+                        id="app-description"
+                            value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
                 <div className="create-app-input-group">
-                    <label className="create-app-input-label"
+                    <label htmlFor="app-gemini-key" className="create-app-input-label"
                     >Gemini API Key <span className="req">*</span></label
                     >
                     <input
                         type="password"
                         className="create-app-field-input mono"
                         placeholder="AIza••••••••••••••••••••••••••••••••••••••"
-                        value={geminiKey}
+                        id="app-gemini-key"
+                            value={geminiKey}
                         onChange={(e) => setGeminiKey(e.target.value)}
                     />
                     <div className="create-app-hint">
@@ -282,11 +288,12 @@ export default function CreateApp() {
                         defaultLanguage="json"
                         value={featuresJson}
                         theme={"vs-dark"}
+                        options={{ariaLabel: "App features JSON", automaticLayout: true, minimap: {enabled: false}}}
                         onChange={(v) => setFeaturesJson(v || "")}
                     />
 
                     {featuresError ? (
-                        <div className="text-error text-sm mt-2">
+                        <div className="text-error text-sm mt-2" role="alert">
                             ❌ {featuresError}
                         </div>
                     ) : (

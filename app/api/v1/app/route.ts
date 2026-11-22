@@ -1,20 +1,47 @@
 import {NextRequest, NextResponse} from "next/server";
 import connectDB from "@/lib/db";
 import Feature from "@/models/feature.model";
-import {generateEmbeddings} from "@/helpers/server/generateEmbeddings";
-import {ensureQdrantReady} from "@/lib/qdrantInit";
-import {upsertFeatureVector} from "@/lib/qdrantUpsert";
 import App from "@/models/app.model";
 import {encrypt} from "@/security/encryption";
 import {generateAppKey, hashAppKey} from "@/security/appKey";
 import User from "@/models/user.model";
-import {v4 as uuidv4} from "uuid";
 import {qdrantClient} from "@/lib/qdrant";
+import {getAppOwnerId} from "@/helpers/server/app-owner";
+import {isObjectIdOrHexString, Types} from "mongoose";
+import {isFeatureList, removeAppFeatures, stageAppFeatures} from "@/helpers/server/app-features";
+
+function appError(message: string, status: number) {
+    return NextResponse.json({success: false, message}, {status});
+}
+
+async function requireOwner(request: NextRequest) {
+    try {
+        return await getAppOwnerId(request) ?? appError("Sign in to access apps", 401);
+    } catch {
+        return appError("Unable to verify session", 503);
+    }
+}
 
 export async function POST(request: NextRequest) {
+    const owner = await requireOwner(request);
+    if (typeof owner !== "string") return owner;
+
     const encoder = new TextEncoder();
-    const {owner, name, contactEmail, geminiKey, description, features: inputFeats} =
-        await request.json();
+    const body: unknown = await request.json().catch(() => null);
+    if (!body || typeof body !== "object") return appError("Invalid app data", 400);
+    const {owner: requestedOwner, name, contactEmail, geminiKey, description, features: inputFeats} =
+        body as Record<string, unknown>;
+    if (requestedOwner !== undefined && requestedOwner !== owner) {
+        return appError("App owner does not match the signed-in user", 403);
+    }
+
+    if (typeof name !== "string" || !name.trim()
+        || typeof contactEmail !== "string" || !contactEmail.trim()
+        || typeof geminiKey !== "string" || !geminiKey.trim()
+        || typeof description !== "string" || !description.trim()
+        || !isFeatureList(inputFeats)) {
+        return appError("App details and features are invalid", 400);
+    }
 
     const stream = new ReadableStream({
         async start(controller) {
@@ -23,7 +50,7 @@ export async function POST(request: NextRequest) {
                     encoder.encode(`data: ${JSON.stringify({type: "status", message})}\n\n`)
                 );
             };
-            const sendFinal = (payload: any) => {
+            const sendFinal = (payload: {success: boolean; message: string; appKey: string}) => {
                 controller.enqueue(
                     encoder.encode(`data: ${JSON.stringify({type: "final", ...payload})}\n\n`)
                 );
@@ -35,52 +62,34 @@ export async function POST(request: NextRequest) {
             };
             try {
                 await connectDB();
+                const user = await User.findById(owner);
+                if (!user) {
+                    sendError("App owner not found");
+                    return controller.close();
+                }
                 sendStatus("🔐 Encrypting Your Gemini Key...");
                 const encryptedGeminiKey = encrypt(geminiKey);
                 sendStatus("🔑 Generating secure App Key...");
                 const secureAppKey = generateAppKey();
                 const hashSecureAppKey = hashAppKey(secureAppKey);
                 sendStatus("🗄️ Creating Your Application...");
+                const appId = new Types.ObjectId();
+                sendStatus("Registering and indexing features...");
+                const features = await stageAppFeatures(appId, inputFeats);
                 const app = await App.create({
+                    _id: appId,
                     owner,
                     name,
                     contactEmail,
                     geminiKey: encryptedGeminiKey,
                     description,
                     appKey: hashSecureAppKey,
+                    features,
                 });
-                const user = await User.findById(owner);
-                if (!user) {
-                    sendError("App owner not found");
-                    return controller.close();
-                }
                 user.apps.push(app._id);
-                await user.save();
-                sendStatus("🧩 Registering features...");
-                const features = [];
-                for (const feat of inputFeats) {
-                    const feature = await Feature.create({...feat, appId: app._id});
-                    features.push(feature);
-                }
-                app.features = features.map((f) => f._id);
-                await app.save();
-                await ensureQdrantReady();
-                sendStatus("🧠 Indexing your app knowledge...");
-                for (const feat of features) {
-                    const emb = await generateEmbeddings(feat.description);
-                    const qdrantPointId = uuidv4();
-                    await upsertFeatureVector({
-                        pointId: qdrantPointId,
-                        embedding: emb!,
-                        payload: {
-                            appId: feat.appId.toString(),
-                            mongoFeatureId: feat._id.toString(),
-                            name: feat.name,
-                            route: feat.route,
-                        },
-                    });
-                }
-                sendStatus("⚡ Activating AGBase...");
+                await user.save().catch(() => {
+                    console.error("App profile link update failed for app", appId.toString());
+                });
                 sendFinal({
                     success: true,
                     message: "App Created Successfully",
@@ -88,7 +97,7 @@ export async function POST(request: NextRequest) {
                 });
                 controller.close();
             } catch (error) {
-                console.error(error);
+                console.error("App operation failed", error instanceof Error ? error.name : "UnknownError");
                 sendError("❌ Failed to create app. Check server logs.");
 
                 controller.close();
@@ -106,6 +115,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+    const owner = await requireOwner(request);
+    if (typeof owner !== "string") return owner;
+
     try {
         await connectDB();
         const {searchParams} = new URL(request.url);
@@ -113,7 +125,8 @@ export async function GET(request: NextRequest) {
         const appId = searchParams.get("appId");
 
         if (appId) {
-            const app = await App.findById(appId)
+            if (!isObjectIdOrHexString(appId)) return appError("Invalid app ID", 400);
+            const app = await App.findOne({_id: appId, owner})
                 .populate("features")
                 .select("name description features contactEmail owner");
 
@@ -124,7 +137,8 @@ export async function GET(request: NextRequest) {
         }
 
         if (userId) {
-            const apps = await App.find({owner: userId}).select("name description features contactEmail");
+            if (userId !== owner) return appError("App owner does not match the signed-in user", 403);
+            const apps = await App.find({owner}).select("name description features contactEmail");
             return NextResponse.json({success: true, apps}, {status: 200});
         }
 
@@ -134,7 +148,7 @@ export async function GET(request: NextRequest) {
         );
 
     } catch (error) {
-        console.error(error);
+        console.error("App operation failed", error instanceof Error ? error.name : "UnknownError");
         return NextResponse.json(
             {success: false, message: "Internal server error"},
             {status: 500}
@@ -143,30 +157,39 @@ export async function GET(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+    const owner = await requireOwner(request);
+    if (typeof owner !== "string") return owner;
+
     try {
         await connectDB();
         const {searchParams} = new URL(request.url);
         const appId = searchParams.get("appId");
-        const app = await App.findById(appId);
+        if (!isObjectIdOrHexString(appId)) return appError("Invalid app ID", 400);
+        const app = await App.findOne({_id: appId, owner});
         if (!app) {
-            return NextResponse.json({success: false, message: "App not found"});
+            return appError("App not found", 404);
         }
-        const user = await User.findById(app.owner);
+        const user = await User.findById(owner);
         if (!user) {
-            return NextResponse.json({success: false, message: "App owner not found"});
+            return appError("App owner not found", 404);
         }
-        await Feature.deleteMany({_id: {$in: app.features}});
-        await qdrantClient.delete(process.env.QDRANT_COLLECTION!, {
-            filter: {
-                must: [{key: "appId", match: {value: appId?.toString()}}]
-            }
-        })
+        const deletion = await App.deleteOne({_id: app._id, owner});
+        if (!deletion.deletedCount) return appError("App not found", 404);
         user.apps.pull(app._id);
-        await user.save();
-        await App.findByIdAndDelete(app._id);
+        const cleanup = await Promise.allSettled([
+            Feature.deleteMany({appId: app._id}),
+            qdrantClient.delete(process.env.QDRANT_COLLECTION!, {
+                wait: true,
+                filter: {must: [{key: "appId", match: {value: appId}}]},
+            }),
+            user.save(),
+        ]);
+        if (cleanup.some((result) => result.status === "rejected")) {
+            console.error("Deleted app cleanup failed for app", appId);
+        }
         return NextResponse.json({success: true, message: "App deleted successfully."});
     } catch (error) {
-        console.error(error);
+        console.error("App operation failed", error instanceof Error ? error.name : "UnknownError");
         return NextResponse.json(
             {
                 success: false,
@@ -178,9 +201,17 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+    const owner = await requireOwner(request);
+    if (typeof owner !== "string") return owner;
+
     try {
         await connectDB();
-        const formData = await request.formData();
+        const formData = await request.formData().catch(() => null);
+        if (!formData) return appError("Invalid app data", 400);
+        if (["name", "description", "contactEmail", "geminiKey"].some((field) => {
+            const value = formData.get(field);
+            return value !== null && typeof value !== "string";
+        })) return appError("Invalid app details", 400);
         const {searchParams} = new URL(request.url);
         const appId = searchParams.get("appId");
 
@@ -188,7 +219,8 @@ export async function PUT(request: NextRequest) {
             return NextResponse.json({success: false, message: "appId is required"}, {status: 400});
         }
 
-        const app = await App.findById(appId);
+        if (!isObjectIdOrHexString(appId)) return appError("Invalid app ID", 400);
+        const app = await App.findOne({_id: appId, owner}).select("+geminiKey");
         if (!app) {
             return NextResponse.json({success: false, message: "App not found"}, {status: 404});
         }
@@ -203,48 +235,30 @@ export async function PUT(request: NextRequest) {
             encryptedGeminiKey = encrypt(newGeminiKey);
         }
 
-        await Feature.deleteMany({appId: app._id});
-        await qdrantClient.delete(process.env.QDRANT_COLLECTION!, {
-            filter: {
-                must: [{key: "appId", match: {value: appId.toString()}}]
+        const rawFeatures = formData.get("features");
+        let inputFeats: unknown = [];
+        if (rawFeatures !== null) {
+            if (typeof rawFeatures !== "string") return appError("Invalid features", 400);
+            try {
+                inputFeats = JSON.parse(rawFeatures);
+            } catch {
+                return appError("Invalid features JSON", 400);
             }
-        });
-
-        const featuresJson = formData.get("features")?.toString();
-        const inputFeats = featuresJson ? JSON.parse(featuresJson) : [];
-        const newFeatureIds = [];
-
-        for (const feat of inputFeats) {
-            const feature = await Feature.create({
-                ...feat, appId: app._id,
-            });
-            newFeatureIds.push(feature._id);
-
-            const emb = await generateEmbeddings(feat.description);
-            const qdrantPointId = uuidv4();
-            await upsertFeatureVector({
-                pointId: qdrantPointId,
-                embedding: emb!,
-                payload: {
-                    appId: app._id.toString(),
-                    mongoFeatureId: feature._id.toString(),
-                    name: feature.name,
-                    route: feature.route,
-                },
-            });
         }
+        if (!isFeatureList(inputFeats)) return appError("Invalid features", 400);
 
-        await App.findByIdAndUpdate(
-            app._id,
-            {
-                name,
-                description,
-                contactEmail,
-                geminiKey: encryptedGeminiKey,
-                features: newFeatureIds,
-            },
-            {new: true}
+        const oldFeatureIds = app.features ?? [];
+        const newFeatureIds = await stageAppFeatures(app._id, inputFeats);
+        const updated = await App.findOneAndUpdate(
+            {_id: app._id, owner, updatedAt: app.updatedAt ?? {$exists: false}},
+            {name, description, contactEmail, geminiKey: encryptedGeminiKey, features: newFeatureIds},
         );
+
+        if (!updated) {
+            await removeAppFeatures(app._id, newFeatureIds);
+            return appError("App changed while editing. Reload and try again.", 409);
+        }
+        await removeAppFeatures(app._id, oldFeatureIds);
 
         return NextResponse.json({
             success: true,
@@ -252,7 +266,7 @@ export async function PUT(request: NextRequest) {
         });
 
     } catch (error) {
-        console.error("Update Error:", error);
+        console.error("App update failed", error instanceof Error ? error.name : "UnknownError");
         return NextResponse.json(
             {
                 success: false,

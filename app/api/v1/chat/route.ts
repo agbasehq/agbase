@@ -51,12 +51,14 @@ export async function POST(request: NextRequest) {
       );
     }
     const emb = query ? await generateEmbeddings(query) : null;
-    const result = await searchSimilarFeatures(emb!, app._id.toString());
-    const featureIds = [];
+    const activeIds = (app.features ?? []).map(String);
+    const result = emb ? await searchSimilarFeatures(emb, app._id.toString(), activeIds) : [];
+    const featureIds = emb ? [] : activeIds.slice(0, 5);
     for (const r of result) {
       featureIds.push(r?.payload!.mongoFeatureId);
     }
     const features = await Feature.find({
+      appId: app._id,
       _id: { $in: featureIds },
     });
     const geminiKey = decrypt(app.geminiKey);
@@ -70,7 +72,7 @@ export async function POST(request: NextRequest) {
     const sources = features.map((f) => f.image);
     return NextResponse.json({ ...res, sources });
   } catch (error) {
-    console.error(error);
+    console.error("Chat request failed", error instanceof Error ? error.name : "UnknownError");
     return NextResponse.json(
       {
         success: false,

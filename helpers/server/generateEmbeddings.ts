@@ -11,9 +11,14 @@ export const generateEmbeddings = async (text: string) => {
         model: 'gemini-embedding-001',
         contents: text.trim().replace(/\s+/g, " "),
         config: {
+            httpOptions: {timeout: 15000},
             outputDimensionality: 768,
             taskType: 'RETRIEVAL_QUERY' // Added for better RAG accuracy
         },
     });
-    return response.embeddings![0].values;
+    const values = response.embeddings?.[0]?.values;
+    if (values?.length !== 768 || !values.every(Number.isFinite)) {
+        throw new Error("Embedding provider returned an invalid vector");
+    }
+    return values;
 };

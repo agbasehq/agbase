@@ -6,9 +6,10 @@ export interface user {
       email: string;
       image: string;
       apps: [];
-      [prop: string]: any;
+      _id: string;
     };
     authUser: {
+      name?: string;
       username: string;
       email: string;
       image: string;

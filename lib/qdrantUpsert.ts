@@ -6,6 +6,7 @@ export async function upsertFeatureVector({pointId, embedding, payload,}: {
     payload: Record<string, unknown>;
 }) {
     await qdrantClient.upsert(process.env.QDRANT_COLLECTION!, {
+        wait: true,
         points: [
             {
                 id: pointId,

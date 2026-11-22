@@ -22,7 +22,7 @@ export default function Hero() {
                 <div className="npm-tag">
                     <pre><code className="cmd">$ npm i @agbase/sdk</code></pre>
                 </div>
-                <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                <div className="mockup-code w-full border border-(--border) bg-(--bg3)">
                     <span className="file-name">App.tsx</span>
                     <div className="code-body max-w-64 text-start">
                         <pre data-prefix="1"><code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>

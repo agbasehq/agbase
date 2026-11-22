@@ -9,7 +9,7 @@ const feature1 =
         name: "Export Data",
         description: "Users can export their data as CSV or JSON. Go to Settings → Data → Export, choose a format and date range. The export file is sent to the account email.",
         route: "/settings/export",
-        elementId: "#export-button",
+        elementId: "export-button",
     }]
 const feature2 = [{
     name: "Team Roles",
@@ -20,7 +20,7 @@ const feature2 = [{
 
 export default function Docs() {
     return (
-        <div className="flex gap-5">
+        <div className="mx-auto grid max-w-7xl min-w-0 gap-5 lg:grid-cols-[15rem_minmax(0,1fr)]">
             <SideBar />
             <main className="docs-main">
                 <div id="introduction">
@@ -94,7 +94,7 @@ export default function Docs() {
                                 <div className="step-badge">1</div>
                                 <h3>Install the package</h3>
                             </div>
-                            <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                            <div className="mockup-code w-full border border-(--border) bg-(--bg3)">
                                 <span className="file-name">BASH</span>
                                 <div className="code-body text-start">
                                     <pre><span className="tk-bash"> npm install @agbase/sdk</span></pre>
@@ -148,7 +148,7 @@ export default function Docs() {
                                 <div className="step-badge">4</div>
                                 <h3>Add the widget to your React app</h3>
                             </div>
-                            <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                            <div className="mockup-code w-full border border-(--border) bg-(--bg3)">
                                 <span className="file-name">TSX</span>
                                 <div className="code-body max-w-64 text-start">
                                     <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>
@@ -287,7 +287,7 @@ export default function Docs() {
                                     <td>name</td>
                                     <td>string</td>
                                     <td className="req">Required</td>
-                                    <td>Short name for the feature (e.g. "Export Data").</td>
+                                    <td>Short name for the feature (e.g. &quot;Export Data&quot;).</td>
                                 </tr>
                                 <tr>
                                     <td>description</td>
@@ -314,7 +314,7 @@ export default function Docs() {
                                     <td className="text-[11px] text-(--muted2)">Optional</td>
                                     <td>
                                         A DOM element ID (e.g.
-                                        <code className="inline">#export-button</code>). Returned so your
+                                        <code className="inline">export-button</code>). Returned so your
                                         app can highlight or scroll to the relevant UI element.
                                     </td>
                                 </tr>
@@ -341,7 +341,7 @@ export default function Docs() {
                         projects.
                     </p>
 
-                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                    <div className="mockup-code w-full border border-(--border) bg-(--bg3)">
                         <span className="file-name">TSX</span>
                         <div className="code-body text-start">
                             <pre> <code><span className="tk-kw">import</span> <span className="tk-kw">{"{"}</span> <span className="tk-fn">ChatWidget</span> <span className="tk-kw">{"}"}</span> <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></code></pre>
@@ -371,8 +371,8 @@ export default function Docs() {
                                 <tr>
                                     <td>name</td>
                                     <td>string</td>
-                                    <td className="req">Required</td>
-                                    <td>Display name of your assistant shown in the chat panel.</td>
+                                    <td className="opt">Optional</td>
+                                    <td>Display name shown in the chat panel. Defaults to Assistant.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -410,11 +410,11 @@ export default function Docs() {
                         script tag — no build step needed.
                     </p>
 
-                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
+                    <div className="mockup-code w-full border border-(--border) bg-(--bg3)">
                         <span className="file-name">HTML</span>
                         <pre> <span className="tk-cmt">&lt;!-- Before closing &lt;/body&gt; --&gt;</span></pre>
                         <pre> <span className="tk-kw">{"<script"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\tsrc"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"https://cdn.jsdelivr.net/npm/@agbase/sdk@0.4.0/dist/loader.standalone.js\""}</span></pre>
+                        <pre> <span className="tk-prop">{"\t\tsrc"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"/assets/loader.standalone.js\""}</span></pre>
                         <pre> <span className="tk-prop">{"\t\tdata-app-key"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"your-app-key-here\""}</span></pre>
                         <pre> <span className="tk-prop">{"\t\tdata-name"}</span><span className="tk-kw">=</span><span className="tk-str">{"\"YOUR_ASSISTANT_NAME\""}</span></pre>
                         <pre> <span className="tk-kw">{"></script>"}</span></pre>
@@ -423,8 +423,7 @@ export default function Docs() {
                     <div className="callout callout-info">
                         <span className="callout-icon">ℹ️</span>
                         <p>
-                            The script auto-initializes when the page loads. Works with any
-                            HTML page.
+                            Host the standalone bundle from your SDK package at the script URL. The loader reads the script attributes and mounts the widget when the page loads.
                         </p>
                     </div>
                 </div>
@@ -433,99 +432,55 @@ export default function Docs() {
 
                 <div id="headless">
                     <h2 className="doc-h2">AGBaseClient (Headless)</h2>
-                    <p className="doc-p">
-                        Use the client directly if you want to build your own chat UI. You
-                        handle the interface — we handle the AI.
-                    </p>
+                    <p className="doc-p">Send a query, optionally attach an image, and consume the streamed response through callbacks.</p>
+                    <pre className="overflow-x-auto rounded-xl border border-(--border) bg-(--bg3) p-4"><code>{`import { AGBaseClient } from '@agbase/sdk';
 
-                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                        <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">AGBaseClient</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
-                        <br />
-                        <pre> <span className="tk-kw">const</span> <span className="doc-p">ai = </span><span className="tk-kw">new</span> <span className="tk-fn">AGBaseClient</span><span className="tk-kw">({"{"}</span></pre>
-                        <pre> <span className="tk-prop">{"\tappKey"}</span>: <span className="tk-str">{"'your-app-key-here'"}</span></pre>
-                        <pre> <span className="tk-kw">{"})"}</span></pre>
-                        <br />
-                        <pre> <span className="tk-cmt">{"// Text query"}</span></pre>
-                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res = </span><span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(userQuery)</span></pre>
-                        <br />
-                        <pre> <span className="tk-cmt">{"// Text + image"}</span></pre>
-                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res = </span><span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(userQuery, imageFile)</span></pre>
-                        <pre className="mt-4"> <span className="tk-cmt">{"// Use the response"}</span></pre>
-                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.res)</span>       <span className="tk-cmt">{"// AI answer text"}</span></pre>
-                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.route)</span>     <span className="tk-cmt">{"// route to navigate to"}</span></pre>
-                        <pre> <span className="doc-p">console.</span><span className="tk-fn">log</span><span className="doc-p">(res.elementId)</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
-                    </div>
+const ai = new AGBaseClient({ appKey: 'your-app-key-here' });
+const request = new AbortController();
+
+await ai.ask({
+    query: 'How do I export my data?',
+    // file: selectedImage,
+    signal: request.signal,
+    onText: (chunk) => console.log(chunk),
+    onMeta: (meta) => console.log(meta.route, meta.elementId),
+    onError: (message) => console.error(message),
+});
+`}</code></pre>
+                    <p className="doc-p mt-3">Call <code>request.abort()</code> to cancel the request.</p>
                 </div>
 
                 <hr className="doc-divider" />
 
                 <div id="nextjs">
                     <h2 className="doc-h2">Next.js Setup</h2>
-                    <p className="doc-p">
-                        ChatWidget is a client component. Use
-                        <code className="inline">{"\"use client\""}</code> and pass your key via
-                        environment variable.
-                    </p>
-
+                    <p className="doc-p">Create a client component and render it from your existing page or layout.</p>
                     <h3 className="doc-h3">.env.local</h3>
-                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                        <span className="file-name">BASH</span>
-                        <pre> <span className="tk-prop">NEXT_PUBLIC_AGBASE_KEY</span>=<span className="tk-str">your-app-key-here</span></pre>
-                    </div>
+                    <pre className="mb-4 overflow-x-auto rounded-xl border border-(--border) bg-(--bg3) p-4"><code>NEXT_PUBLIC_AGBASE_APP_KEY=your-app-key-here</code></pre>
+                    <h3 className="doc-h3">app/Assistant.tsx</h3>
+                    <pre className="overflow-x-auto rounded-xl border border-(--border) bg-(--bg3) p-4"><code>{`'use client';
 
-                    <h3 className="doc-h3 mt-4">app/layout.tsx (App Router)</h3>
-                    <div className="mockup-code w-full mt-4" style={{ background: '#111520', border: '1px solid #111520' }}>
-                        <span className="file-name">TSX</span>
-                        <pre> <span className="tk-str">{"'use client'"}</span></pre>
-                        <pre> <span className="tk-kw">import</span> {"{ "} <span className="tk-fn">ChatWidget</span> {" }"} <span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
-                        <br />
-                        <pre> <span className="tk-kw">export default function</span> <span className="tk-fn">RootLayout</span><span className="doc-p">({"{"}</span> <span className="tk-prop">children</span> <span className="doc-p">{"}"}: {"{"}</span> <span className="tk-prop">children</span>: <span className="tk-fn">React.ReactNode</span> <span className="doc-p">{"}"}) {"{"}</span></pre>
-                        <pre> <span className="tk-kw">{"\treturn ("}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t<html>"}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t\t<body>"}</span></pre>
-                        <pre> <span className="doc-p">{"\t\t\t\t{children}"}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t\t\t<"}</span><span className="tk-kw">ChatWidget</span></pre>
-                        <pre> <span className="tk-prop">{"\t\t\t\t\tappKey"}</span><span className="doc-p">=</span><span className="tk-kw">{"{process.env.NEXT_PUBLIC_AGBASE_KEY}"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\t\t\t\tname"}</span><span className="doc-p">=</span><span className="tk-str">{"\"Aria\""}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t\t\t/>"}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t\t</body>"}</span></pre>
-                        <pre> <span className="tk-kw">{"\t\t</html>"}</span></pre>
-                        <pre> <span className="tk-kw">{"\t)"}</span></pre>
-                        <pre> <span className="doc-p">{"}"}</span></pre>
+import { ChatWidget } from '@agbase/sdk';
 
-                    </div>
+export default function Assistant() {
+    const appKey = process.env.NEXT_PUBLIC_AGBASE_APP_KEY;
+    return appKey ? <ChatWidget appKey={appKey} name="Aria" /> : null;
+}
+`}</code></pre>
                 </div>
                 
                 <hr className="doc-divider" />
 
                 <div id="response-format">
                     <h2 className="doc-h2">Response Format</h2>
-                    <p className="doc-p">
-                        Both ChatWidget and
-                        <code className="inline">AGBaseClient.ask()</code> return the same
-                        response shape:
-                    </p>
-                    <div className="mockup-code w-full" style={{ background: '#111520', border: '1px solid #111520' }}>
-                        <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="doc-p">{"{"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\tres"}</span>: <span className="tk-kw">string</span>           <span className="tk-cmt">{"// AI's text answer (markdown supported)"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\troute"}</span>: <span className="text-[#c084fc]">string | null</span>   <span className="tk-cmt">{"// App route to navigate to"}</span></pre>
-                        <pre> <span className="tk-prop">{"\t\telementId"}</span>: <span className="text-[#c084fc]">string | null</span> <span className="tk-cmt">{"// DOM element to highlight"}</span></pre>
-                        <pre> <span className="doc-p">{"}"}</span></pre>
-                    </div>
+                    <p className="doc-p"><code>ask()</code> returns <code>Promise&lt;void&gt;</code>. Handle response chunks in <code>onText</code> and progress updates in <code>onStatus</code>. <code>onMeta</code> receives the route and element ID, which may each be null. <code>onDone</code> signals successful completion. <code>onError</code> receives an error message if the request fails or the stream is interrupted.</p>
                 </div>
 
                 <hr className="doc-divider" />
 
                 <div id="typescript" className="mb-10">
                     <h2 className="doc-h2">TypeScript Types</h2>
-                    <div className="mockup-code text-start" style={{ background: '#111520', border: '1px solid #111520' }}>
-                        <span className="file-name">TYPESCRIPT</span>
-                        <pre> <span className="tk-kw">import</span> <span className="doc-p">{"{ "}</span><span className="text-[#c084fc]">AssistantResponse</span> <span className="doc-p">{"}"} </span><span className="tk-kw">from</span> <span className="tk-str">{"'@agbase/sdk'"}</span></pre>
-                        <br />
-                        <pre> <span className="tk-kw">const</span> <span className="doc-p">res:</span><span className="text-[#c084fc]"> AssistantResponse</span> <span className="doc-p">=</span> <span className="tk-kw">await</span> <span className="doc-p">ai</span>.<span className="tk-fn">ask</span><span className="doc-p">(</span><span className="tk-str">{"'How do I export data?'"}</span><span className="doc-p">)</span></pre>
-                    </div>
+                    <pre className="overflow-x-auto rounded-xl border border-(--border) bg-(--bg3) p-4"><code>{`import type { AGBaseConfig, AskOptions, MetaData } from '@agbase/sdk';`}</code></pre>
                 </div>
             </main >
         </div >

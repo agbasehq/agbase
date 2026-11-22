@@ -23,12 +23,11 @@ export const handleSignUp = async ({
     const res = await axios.post("/api/v1/auth/signup", formValue, {
       withCredentials: true,
     });
-    console.log(res.data);
     toast.success(res?.data?.message);
     dispatch(setUserData(res?.data?.user));
-  } catch (error: any) {
-    toast.error(error?.response?.data?.message || error?.message);
-    dispatch(setAuthLoad(false));
+  } catch (error) {
+    const message = axios.isAxiosError<{message?: string}>(error) ? error.response?.data.message : undefined;
+    toast.error(message || "Could not sign up");
   } finally {
     dispatch(setAuthLoad(false));
   }
@@ -54,15 +53,13 @@ export const handleLogin = async ({
       password: formValue.password,
       redirect: false,
     });
-    console.log(res);
     if (res?.ok) {
       toast.success("Login Successful!");
     } else {
       toast.error(res?.error || "Invalid Credentials");
     }
-  } catch (error: any) {
-    toast.error(error);
-    dispatch(setAuthLoad(false));
+  } catch {
+    toast.error("Could not sign in");
   } finally {
     dispatch(setAuthLoad(false));
   }

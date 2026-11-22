@@ -26,7 +26,7 @@
     }
 
     .sidebar-nav li a.active {
-        @apply bg-[#6c63ff]/8 text-(--accent);
+        @apply bg-[#2861db]/8 text-(--accent2);
     }
 
     .docs-main {
@@ -149,3 +149,4 @@
         @apply text-[10.5px] font-bold text-[#f87171];
     }
 }
+.docs-main [id] { scroll-margin-top: 5rem; }

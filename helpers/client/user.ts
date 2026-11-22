@@ -5,23 +5,16 @@ import { signOut } from "next-auth/react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import toast from "react-hot-toast";
 
-// export const getUser = async (dispatch: AppDispatch) => {
-//   try {
-//     const res = await axios.get("/api/v1/user", { withCredentials: true });
-//     dispatch(setUserData(res?.data.user));
-//   } catch (error: any) {
-//     console.log(error);
-//   }
-// };
-
-export const getUser = async (dispatch: AppDispatch) => {
+export const getUser = async (dispatch: AppDispatch, signal?: AbortSignal) => {
   try {
-    const res = await axios.get("http://localhost:3001/user", {
-      withCredentials: true,
-    });
-    dispatch(setUserData(res?.data));
-  } catch (error: any) {
-    toast.error(error?.response?.data?.message || error?.message);
+    const res = await axios.get("/api/dashboard/user", { signal, withCredentials: true });
+    if (!signal?.aborted) dispatch(setUserData(res.data));
+    return true;
+  } catch (error) {
+    if (!axios.isCancel(error) && !(axios.isAxiosError(error) && error.response?.status === 401)) {
+      toast.error("Couldn't load your profile");
+    }
+    return false;
   }
 };
 

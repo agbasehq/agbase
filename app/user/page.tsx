@@ -2,21 +2,25 @@
 
 import { authClient } from "@/lib/auth-client";
 import { user } from "@/types/redux.types";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 
 export default function User() {
     const router = useRouter();
-    const authUser = useSelector((state: user) => state.user.authUser)
+    const legacy = useSession();
     const userData = useSelector((state: user) => state.user.userData)
     const session = authClient.useSession();
-    const userId = userData?._id || authUser?.id || session.data?.user.id;
+    const userId = (session.data?.user.id && (userData?._id || session.data.user.id)) || legacy.data?.user.id;
+    const isPending = session.isPending || legacy.status === "loading";
     useEffect(() => {
         if (userId) {
             router.replace(`/user/${userId}`)
-        } else {
+        } else if (!isPending) {
             router.replace('/login')
         }
-    }, [userId, router])
+    }, [isPending, userId, router]);
+
+    return <div className="page"><p className="page-feedback" role="status">Opening your dashboard...</p></div>;
 }

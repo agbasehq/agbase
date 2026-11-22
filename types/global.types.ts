@@ -6,11 +6,11 @@ export interface Feature {
     elementId: string;
 }
 
-export type AppType = {
+export type AppType<TFeature = Feature> = {
     _id: string;
     name: string;
     description: string;
-    features: any[];
+    features: TFeature[];
     contactEmail: string;
 };
 
@@ -19,7 +19,7 @@ export const DEFAULT_FEATURES_JSON = `[
     "name": "Pricing Page",
     "description": "Shows pricing tiers and subscription plans",
     "route": "/pricing",
-    "elementId": "#pricing-table",
+    "elementId": "pricing-table",
     "image": "https://yourcdn.com/pricing.png"
   },
   {

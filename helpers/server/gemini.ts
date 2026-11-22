@@ -1,3 +1,4 @@
+import { geminiModel } from "@/helpers/server/gemini-model";
 import {GoogleGenAI} from "@google/genai";
 
 async function fileToBase64(file: File) {
@@ -128,7 +129,7 @@ User Query: ${query || "User sent an image without text."}
         });
     }
     const res = await genAi.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: geminiModel,
         contents: [{role: "user", parts}]
     });
 
